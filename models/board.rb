@@ -1,4 +1,4 @@
-Piece = Struct.new(:color, :name);
+require './models/piece.rb'
 
 class Board
 
@@ -51,5 +51,10 @@ class Board
   def num(char)
     char.to_i - 1
   end
+
+  # TODO:
+  #def [](piece_or_coord)
+    #if piece_or_coord.class 
+  #end
 
 end
