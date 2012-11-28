@@ -19,4 +19,4 @@ require './models/board.rb'
 
 =end
 
-board = Board.new();
+board = Board.new()
