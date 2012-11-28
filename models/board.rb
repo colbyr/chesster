@@ -1,6 +1,9 @@
 require './models/piece.rb'
 
 class Board
+  
+  ROW_RANGE = 1..8
+  COLUMN_RANGE = 'a'..'h'
 
   @@char_map = {
     'a' => 0,
@@ -14,14 +17,14 @@ class Board
   }
 
   @@initial_state = [
-      [Piece.new(:w, :R), Piece.new(:w, :P), :e, :e, :e, :e, Piece.new(:b, :P), Piece.new(:b, :R)], # a
-      [Piece.new(:w, :N), Piece.new(:w, :P), :e, :e, :e, :e, Piece.new(:b, :P), Piece.new(:b, :N)], # b
-      [Piece.new(:w, :B), Piece.new(:w, :P), :e, :e, :e, :e, Piece.new(:b, :P), Piece.new(:b, :B)], # c
-      [Piece.new(:w, :Q), Piece.new(:w, :P), :e, :e, :e, :e, Piece.new(:b, :P), Piece.new(:b, :Q)], # d
-      [Piece.new(:w, :K), Piece.new(:w, :P), :e, :e, :e, :e, Piece.new(:b, :P), Piece.new(:b, :K)], # e
-      [Piece.new(:w, :B), Piece.new(:w, :P), :e, :e, :e, :e, Piece.new(:b, :P), Piece.new(:b, :B)], # f
-      [Piece.new(:w, :N), Piece.new(:w, :P), :e, :e, :e, :e, Piece.new(:b, :P), Piece.new(:b, :N)], # g
-      [Piece.new(:w, :R), Piece.new(:w, :P), :e, :e, :e, :e, Piece.new(:b, :P), Piece.new(:b, :R)]  # h
+      [Piece.new(:w, :R), Piece.new(:w, :P), nil, nil, nil, nil, Piece.new(:b, :P), Piece.new(:b, :R)], # a
+      [Piece.new(:w, :N), Piece.new(:w, :P), nil, nil, nil, nil, Piece.new(:b, :P), Piece.new(:b, :N)], # b
+      [Piece.new(:w, :B), Piece.new(:w, :P), nil, nil, nil, nil, Piece.new(:b, :P), Piece.new(:b, :B)], # c
+      [Piece.new(:w, :Q), Piece.new(:w, :P), nil, nil, nil, nil, Piece.new(:b, :P), Piece.new(:b, :Q)], # d
+      [Piece.new(:w, :K), Piece.new(:w, :P), nil, nil, nil, nil, Piece.new(:b, :P), Piece.new(:b, :K)], # e
+      [Piece.new(:w, :B), Piece.new(:w, :P), nil, nil, nil, nil, Piece.new(:b, :P), Piece.new(:b, :B)], # f
+      [Piece.new(:w, :N), Piece.new(:w, :P), nil, nil, nil, nil, Piece.new(:b, :P), Piece.new(:b, :N)], # g
+      [Piece.new(:w, :R), Piece.new(:w, :P), nil, nil, nil, nil, Piece.new(:b, :P), Piece.new(:b, :R)]  # h
     ]
 
 
@@ -44,7 +47,7 @@ class Board
   end
 
   def move(from, to)
-    piece = self.set(from, :e)
+    piece = self.set(from, nil)
     self.set(to, piece)
   end
 
@@ -52,9 +55,12 @@ class Board
     char.to_i - 1
   end
 
-  # TODO:
-  #def [](piece_or_coord)
-    #if piece_or_coord.class 
-  #end
+  def [](column, row)
+    self.get([column, row])
+  end
+
+  def squares
+    @state.flatten
+  end
 
 end

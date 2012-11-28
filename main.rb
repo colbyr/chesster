@@ -3,7 +3,7 @@ require './models/board.rb'
 =begin
 
  2 colors
- 6 peices
+ 6 pieces
  8 coords
 ----------
 16 things <= BOOM HEX
