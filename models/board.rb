@@ -13,8 +13,7 @@ class Board
     'h' => 7
   }
 
-  def initialize
-    @state  = [
+  @@initial_state = [
       [Piece.new(:w, :R), Piece.new(:w, :P), :e, :e, :e, :e, Piece.new(:b, :P), Piece.new(:b, :R)], # a
       [Piece.new(:w, :N), Piece.new(:w, :P), :e, :e, :e, :e, Piece.new(:b, :P), Piece.new(:b, :N)], # b
       [Piece.new(:w, :B), Piece.new(:w, :P), :e, :e, :e, :e, Piece.new(:b, :P), Piece.new(:b, :B)], # c
@@ -24,6 +23,10 @@ class Board
       [Piece.new(:w, :N), Piece.new(:w, :P), :e, :e, :e, :e, Piece.new(:b, :P), Piece.new(:b, :N)], # g
       [Piece.new(:w, :R), Piece.new(:w, :P), :e, :e, :e, :e, Piece.new(:b, :P), Piece.new(:b, :R)]  # h
     ]
+
+
+  def initialize
+    @state  = @@initial_state
   end
 
   def alpha(char)
