@@ -2,7 +2,7 @@ require './models/piece.rb'
 
 class Board
   
-  ROW_RANGE = 1..8
+  ROW_RANGE = 0..7
   COLUMN_RANGE = 'a'..'h'
 
   @@char_map = {
@@ -30,6 +30,10 @@ class Board
 
   def initialize
     @state  = @@initial_state
+  end
+
+  def state
+    @state
   end
 
   def alpha(char)
