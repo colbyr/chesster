@@ -21,7 +21,7 @@ class Square
   end
 
   def self.include?(square)
-    @@positions.include?(Square.to_symb(square))
+    @@positions.include?(Square.to_sym(square))
   end
 
   def self.collect(&proc)
