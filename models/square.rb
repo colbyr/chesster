@@ -1,4 +1,4 @@
-class Squares
+class Square
 
   @@positions =
     {:a8 => 56, :b8 => 57, :c8 => 58, :d8 => 59, :e8 => 60, :f8 => 61, :g8 => 62, :h8 => 63, 
@@ -17,7 +17,7 @@ class Squares
   
   # Value of key
   def self.index(position)
-    @@positions.index(position)
+    @@positions.key(position)
   end
 
   def self.include?(square)
@@ -41,9 +41,10 @@ class Squares
   end
 
   # Ensure squares are represented as symbols
-  def self.to_symb(square)
+  def self.to_sym(square)
     square = square.downcase.to_sym if square.class == String
-    raise ArgumentError, "#{square} is not a valid square, :a1,...,:h8 expected" unless @@positions.include? square
+    raise ArgumentError, "#{square} is not a valid square, :a1,...,:h8 expected" unless @@positions.include? square 
+    square
   end
 
 end

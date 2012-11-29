@@ -24,7 +24,7 @@ class Piece
 
   # Bitwise or
   def |(other)
-    make piece @bitboard | other.bitboard
+    make_piece @bitboard | other.bitboard
   end
 
   # Bitwise not
