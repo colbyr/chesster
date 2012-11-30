@@ -1,0 +1,5 @@
+require 'test/unit'
+require './tests/bitboard_test.rb'
+require './tests/move_test.rb'
+require './tests/piece_test.rb'
+require './tests/position_test.rb'
