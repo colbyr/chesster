@@ -37,9 +37,10 @@ class Bitboard
 
   # Birwise not
   def ~()
-    notvalue = Bitboard.new
-    0.upto(63){|i| notvalue.set!(i) if self.clear?(i)}
-    notvalue
+    #notvalue = Bitboard.new
+    #0.upto(63){|i| notvalue.set!(i) if self.clear?(i)}
+    #notvalue
+    Bitboard.new(self.value ^ Bitboard::MaxValue)
   end
 
   # Bitwise xor
