@@ -2,6 +2,23 @@ require 'test/unit'
 require './models/bitboard.rb'
 
 class BitboardTest < Test::Unit::TestCase
+  def setup
+    # Randomly chosen index values
+    @bit_index_values = [0, 3, 7, 9, 17, 32, 42, 63]
+    @board = Bitboard.new
+  end
+
+  def test_new
+    a = Bitboard.new
+    assert_not_nil a
+
+    b = Bitboard.new(1)
+    assert_not_nil b
+
+    c = Bitboard.new(1<<63)
+    assert_not_nil c
+  end
+
   def test_create_blank_bitboard
     b = Bitboard.new
     assert_equal(0, b.value)
@@ -29,6 +46,9 @@ class BitboardTest < Test::Unit::TestCase
     b2 = Bitboard.new(white_knights_less)
     result = b1 & b2
     assert_equal(result, b2)
+
+    check_and(Bitboard::MaxValue)
+    check_and(Bitboard.new(Bitboard::MaxValue))
   end
 
   def test_or
@@ -36,13 +56,25 @@ class BitboardTest < Test::Unit::TestCase
     b2 = Bitboard.new(0b10110)
     result = b1 | b2
     assert_equal(0b11111, result.value)
+
+    check_or(Bitboard::MinValue)
+    check_or(Bitboard.new(Bitboard::MinValue))
   end
 
   def test_not
-    b1 = Bitboard.new(0b010000)
-    b2 = Bitboard.new(0b101111)
+    full = Bitboard.new(Bitboard::MaxValue)
+    empty = Bitboard.new(Bitboard::MinValue)
+    assert_equal empty, ~full
+    assert_equal full, ~empty
 
-    assert(b2 = ~b1)
+    @bit_index_values.each do |i| 
+      full.clear!(i)
+      empty.set!(i)
+    end
+
+    assert_equal empty, ~full
+    assert_equal full, ~empty
+
   end
 
   def test_xor
@@ -75,6 +107,56 @@ class BitboardTest < Test::Unit::TestCase
     b1.clear! 0
     b1.clear! 5
     assert_equal([], b1.set_bits)
+  end
+
+  private
+  def set_test_bits
+    value = 0
+    @bit_index_values.each do |n| 
+      @board.set!(n)
+      value += 1<<n  
+    end
+    value
+  end
+
+  def cleared_test_bits
+    value = Bitboard::MaxValue
+    @board = Bitboard.new(Bitboard::MaxValue)
+    @bit_index_values.each do |n| 
+      @board.clear!(n)
+      value -= 1<<n  
+    end
+    value
+  end
+
+  def check_or(other)
+    empty     = Bitboard.new(0)
+    first     = Bitboard.new(1)
+    last      = Bitboard.new(1<<63)
+    next_last = Bitboard.new(1<<62)
+
+    assert_equal      empty,      @board    | other 
+    assert_equal      first,      first     | other
+    assert_not_equal  empty,      first     | other
+    assert_equal      next_last,  next_last | other
+    assert_not_equal  first,      next_last | other
+    assert_equal      last,       last      | other
+    assert_not_equal  next_last,  last      | other
+  end
+
+  def check_and(other)
+    empty     = Bitboard.new(0)
+    first     = Bitboard.new(1)
+    last      = Bitboard.new(1<<63)
+    next_last = Bitboard.new(1<<62)
+
+    assert_equal      empty,      @board    & other 
+    assert_equal      first,      first     & other
+    assert_not_equal  empty,      first     & other
+    assert_equal      next_last,  next_last & other
+    assert_not_equal  first,      next_last & other
+    assert_equal      last,       last      & other
+    assert_not_equal  next_last,  last      & other
   end
 
 end

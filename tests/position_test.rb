@@ -141,6 +141,7 @@ class PositionTest < Test::Unit::TestCase
     Square.each do |square, bit| 
       expected.include?(square) ? assert(current.set?(bit)) : assert(current.clear?(bit))
     end
+
   end
 
 end
