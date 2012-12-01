@@ -1,4 +1,4 @@
-require 'lib/api.rb'
+require 'api'
 
 class Pinger < API
 
