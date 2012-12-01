@@ -30,4 +30,5 @@ puts pinger.ping(TRUE)
 =end
 
 board = Position.new
+board.new_game!
 board.serialize
