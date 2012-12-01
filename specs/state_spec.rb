@@ -27,4 +27,33 @@ describe State do
 
   end
 
+  context 'when it is white turn' do
+    it "should indiciate that it is white turn" do
+      @state = State.new
+      @state.current_player.should eq(:white)
+    end
+
+    it "should change to black turn when signaled to switch" do
+      @state = State.new
+      @state.switch_current_turn!
+      @state.current_player.should eq(:black)
+    end
+  end
+
+  context 'when it is black turn' do
+    it "should indicate that it is black turn" do
+      @state = State.new
+      @state.switch_current_turn!
+      @state.current_player.should eq(:black)
+    end
+
+    it "should change to white turn when signaled to switch" do
+      @state = State.new
+      @state.switch_current_turn!
+      @state.switch_current_turn!
+
+      @state.current_player.should eq(:white)
+    end
+  end
+
 end
