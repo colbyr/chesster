@@ -75,10 +75,6 @@ class Position
     all
   end
 
-  def serialize
-    @white.each {|p| puts p}
-  end
-
   private
   def clear!(square)
     piece = self[square]
