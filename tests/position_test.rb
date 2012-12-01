@@ -7,7 +7,7 @@ class PositionTest < Test::Unit::TestCase
   def setup
     @new_game = new_game_position
   end
-  
+
   def test_create_position
     assert_not_nil Position.new
   end
