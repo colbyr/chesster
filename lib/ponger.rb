@@ -1,4 +1,4 @@
-require 'lib/api.rb'
+require './lib/api.rb'
 
 class Ponger < API
 
