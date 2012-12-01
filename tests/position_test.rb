@@ -109,7 +109,7 @@ class PositionTest < Test::Unit::TestCase
 
     check_expected_occupation occupied, @new_game.all_pieces
     check_expected_occupation [],       Position.new.all_pieces
-    Square.each_key do |square| 
+    Square.each_key do |square|
       occupied.include?(square) ? assert(@new_game.set?(square)) : assert(@new_game.clear?(square))
     end
   end
