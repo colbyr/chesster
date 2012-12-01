@@ -1,6 +1,6 @@
 require 'models/bitboard.rb'
-require 'lib/ping.rb'
-require 'lib/pong.rb'
+require 'lib/pinger.rb'
+require 'lib/ponger.rb'
 
 =begin
 
@@ -21,7 +21,9 @@ require 'lib/pong.rb'
 
 =end
 
-ping = Ping.new
-pong = Pong.new
+pinger = Pinger.new
+ponger = Ponger.new
 
-puts 'BOOM'
+puts 'BOOM: '
+puts pinger.ping
+puts pinger.ping(TRUE)

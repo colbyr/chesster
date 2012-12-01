@@ -1,9 +1,16 @@
+require 'httparty'
 
 class API
+  include HTTParty
 
-  @@endpoint = 'http://localhost:4567'
+  base_uri 'http://localhost:4567'
 
-  def get
+  def status(options={})
+    self.class.get('/ready', options);
+  end
+
+  def not_ready(options={})
+    self.class.get('/not_ready', options);
   end
 
 end
