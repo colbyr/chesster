@@ -6,7 +6,7 @@ class PieceTest < Test::Unit::TestCase
     @piece = empty_board
     @white_pawns = [:a2, :b2, :c2, :d2, :e2, :f2, :g2, :h2]
   end
-  
+
   def test_create_piece
     p = Piece.new
     assert_not_nil(p)
@@ -196,5 +196,4 @@ class PieceTest < Test::Unit::TestCase
     Piece.new
   end
 
-  
 end

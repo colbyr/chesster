@@ -11,6 +11,22 @@ class Position
     @black = black
   end
 
+  def new_game!
+    @white[:pawn] = Piece.new([:a2, :b2, :c2, :d2, :e2, :f2, :g2, :h2])
+    @white[:rook] = Piece.new([:a1, :h1])
+    @white[:knight] = Piece.new([:b1, :g1])
+    @white[:bishop] = Piece.new([:c1, :f1]) 
+    @white[:king] = Piece.new([:e1])
+    @white[:queen] = Piece.new([:d1])
+
+    @black[:pawn] = Piece.new([:a7, :b7, :c7, :d7, :e7, :f7, :g7, :h7])
+    @black[:rook] = Piece.new([:a8, :h8])
+    @black[:knight] = Piece.new([:b8, :g8])
+    @black[:bishop] = Piece.new([:c8, :f8])
+    @black[:king] = Piece.new([:e8])
+    @black[:queen] = Piece.new([:d8])
+  end
+
   def [](square)
     raise ArgumentError, "#{square} is not a valid square, :a1,...,:h8 expected" unless Square.include?(square)
     @white.each { |piece, position| return [:white, piece] if position.set?(square) }
@@ -57,6 +73,10 @@ class Position
     all = Bitboard.new
     @black.each_value{|piece| all |= piece.bitboard }
     all
+  end
+
+  def serialize
+    @white.each {|p| puts p}
   end
 
   private

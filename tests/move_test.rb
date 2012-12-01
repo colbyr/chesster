@@ -179,21 +179,7 @@ class MoveTest < Test::Unit::TestCase
 
   def new_game_position
     position = Position.new
-
-    position.white[:pawn]   = Piece.new [:a2, :b2, :c2, :d2, :e2, :f2, :g2, :h2]
-    position.white[:knight] = Piece.new [:b1, :g1]
-    position.white[:bishop] = Piece.new [:c1, :f1] 
-    position.white[:rook]   = Piece.new [:a1, :h1]
-    position.white[:queen]  = Piece.new [:d1]
-    position.white[:king]   = Piece.new [:e1]
-
-    position.black[:pawn]   = Piece.new [:a7, :b7, :c7, :d7, :e7, :f7, :g7, :h7]
-    position.black[:knight] = Piece.new [:b8, :g8]
-    position.black[:bishop] = Piece.new [:c8, :f8]
-    position.black[:rook]   = Piece.new [:a8, :h8]
-    position.black[:queen]  = Piece.new [:d8]
-    position.black[:king]   = Piece.new [:e8]
-
+    position.new_game!
     position
   end
 
