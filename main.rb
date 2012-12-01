@@ -1,4 +1,5 @@
 require 'models/bitboard.rb'
+require 'models/position.rb'
 require 'lib/pinger.rb'
 require 'lib/ponger.rb'
 
@@ -19,7 +20,6 @@ require 'lib/ponger.rb'
 6 - 7|g
 7 - 8|h
 
-=end
 
 pinger = Pinger.new
 ponger = Ponger.new
@@ -27,3 +27,7 @@ ponger = Ponger.new
 puts 'BOOM: '
 puts pinger.ping
 puts pinger.ping(TRUE)
+=end
+
+board = Position.new
+board.serialize
