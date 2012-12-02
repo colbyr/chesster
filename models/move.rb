@@ -11,8 +11,13 @@ class Move
     @position = position
   end
 
-    # generate the moves that the knights can make from their current positions
-    # for a given color (:black or :white)
+  # generate the moves that the knights can make from their current positions
+  # for a given color (:black or :white)
+  # 
+  # @returns an array of moves from current position
+  # - Each move is an array of the form 
+  #   [:current_position_of_piece_to_move, 
+  #   :position_to_move_to]
   def gen_knight_moves(color)
     moves = []
     
@@ -42,7 +47,12 @@ class Move
   end
   
   # generate the moves that the pawns can make from their current positions
-  # TODO: no en-passant or promotion yet. 
+  # TODO: no en-passant or promotion yet
+  # @returns an array of moves from current position
+  # - Each move is an array of the form 
+  #   [:current_position_of_piece_to_move, 
+  #   :position_to_move_to]
+
   def gen_pawn_moves(color)
     moves = []
     all = @position.all_pieces
@@ -86,6 +96,11 @@ class Move
   # generate the moves that the rooks can make from their current positions
   # the piece parameter is there to allow the queen to use this method to 
   # generate her moves
+  # @returns an array of moves from current position
+  # - Each move is an array of the form 
+  #   [:current_position_of_piece_to_move, 
+  #   :position_to_move_to]
+
   def gen_rook_moves(color, piece=:rook)
     moves = []
     if color == :white
@@ -172,6 +187,12 @@ class Move
   # generate the moves that the bishops can make from their current positions
   # the piece parameter is there to allow the queen to use this method to 
   # generate her moves
+  #
+  # @returns an array of moves from current position
+  # - Each move is an array of the form 
+  #   [:current_position_of_piece_to_move, 
+  #   :position_to_move_to]
+
   def gen_bishop_moves(color, piece=:bishop)
     moves = []
     if color == :white
@@ -257,6 +278,12 @@ class Move
   
   # generate the moves that the king can make from his current positions
   # TODO: Check and Castling
+  #
+  # @returns an array of moves from current position
+  # - Each move is an array of the form 
+  #   [:current_position_of_piece_to_move, 
+  #   :position_to_move_to]
+
   def gen_king_moves(color)
     moves = []
     if color == :white
@@ -277,10 +304,20 @@ class Move
     moves
   end
   
+  # @returns an array of moves from current position
+  # - Each move is an array of the form 
+  #   [:current_position_of_piece_to_move, 
+  #   :position_to_move_to]
+
   def gen_queen_moves(color)
     gen_rook_moves(color, :queen) + gen_bishop_moves(color, :queen) 
   end
-  
+
+ # @returns an array of moves from current position for all pieces
+  # - Each move is an array of the form 
+  #   [:current_position_of_piece_to_move, 
+  #   :position_to_move_to]
+ 
   def gen_all_moves(color)
     moves =   gen_pawn_moves    color 
     moves +=  gen_knight_moves  color 
