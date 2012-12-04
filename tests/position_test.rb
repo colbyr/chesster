@@ -46,6 +46,15 @@ class PositionTest < Test::Unit::TestCase
     assert_raise(ArgumentError) {position[:i1]}
   end
 
+  def test_move!
+    position = Position.new
+    position.new_game!
+
+    position.move!([:a2, :a3])
+
+    assert_equal [:white, :pawn], position[:a3]
+  end
+
   def test_square_set_accepts_nil
     @new_game[:d2] = nil
     @new_game[:e2] = nil

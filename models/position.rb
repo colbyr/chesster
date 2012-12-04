@@ -28,6 +28,17 @@ class Position
     nil
   end
 
+  # Perform a move of format [:current_position_of_piece_to_move,
+  # :position to move to]
+  def move!(move)
+    from = move[0]
+    to = move[1]
+    piece = self[from]
+    
+    self[to] = piece
+    self[from] = nil
+  end
+
   def [](square)
     raise ArgumentError, "#{square} is not a valid square, :a1,...,:h8 expected" unless Square.include?(square)
     @white.each { |piece, position| return [:white, piece] if position.set?(square) }
@@ -49,7 +60,7 @@ class Position
 
     return clear!(square) if piece.nil?
 
-    raise ArgumentError unless Piece::Side.include?(piece[0])
+    raise ArgumentError unless Piece::Color.include?(piece[0])
     raise ArgumentError unless Piece::Type.include?(piece[1])
 
     if piece[0] == :white
