@@ -30,13 +30,22 @@ class Position
 
   # Perform a move of format [:current_position_of_piece_to_move,
   # :position to move to]
+  #
+  # WARNING!! This method modifies state of current object AND returns
+  # a copy of the newly modified object. TODO FIX
+  #
+  # TODO: Detect capture
   def move!(move)
     from = move[0]
     to = move[1]
     piece = self[from]
+
+    puts 'Moving piece from ' + from.to_s + ' to ' + to.to_s
     
     self[to] = piece
     self[from] = nil
+    
+    self
   end
 
   def [](square)

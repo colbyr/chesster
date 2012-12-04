@@ -11,13 +11,12 @@ class Chesster
   def initialize(game_id, team_number, team_secret)
     @pinger = Pinger.new(game_id, team_number, team_secret)
     @ponger = Ponger.new
-    @notified = false
     register 
   end
 
   def notify_of_new_move(last_move, last_move_number)
+     #TODO: Interrupt searching
     puts 'Got notified of new move: ' + last_move
-    @notified = true
   end
 
   private
