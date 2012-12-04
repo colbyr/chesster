@@ -18,7 +18,7 @@ class Pinger < API
       if response['ready'] == true
         Actor[:chesster].notify_of_new_move(response)
       end 
-      sleep(300)
+      sleep(5)
     end
   end
 
