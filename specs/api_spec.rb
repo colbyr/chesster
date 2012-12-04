@@ -29,5 +29,10 @@ describe API do
      response = @api.poll
      response['secondsleft'].should eq(123.45)
    end
+
+   it "should return new move from server" do
+     response = @api.poll
+     response['lastmove'].should match(/^[KQRBNP][a-h][1-8][a-h][1-8][QRBN]?/)
+   end
  end
 end

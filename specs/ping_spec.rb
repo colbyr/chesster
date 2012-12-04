@@ -1,33 +1,15 @@
 require 'pinger'
+require 'timecop'
 
 describe Pinger do
-  context 'pinging with no new move' do
 
-    before(:each) do
-      @pinger = mock(Pinger)
-      @pinger.stub!(:ping).and_return({'ready' => false})
-    end
-
-    it "should check server for new move" do
-      response = @pinger.ping
-      response['ready'].should eq(false)
-    end
-
+  before do
+    Timecop.scale(3600)
   end
 
-  context 'pinging with new move' do
+  it "should instantiate an actor" do
+    @p = Pinger.new(11,1, "32c68cae") 
+    @p.class.should eq(Pinger)
+  end 
 
-    before(:each) do
-      @pinger = mock(Pinger)
-      @pinger.stub!(:ping).and_return({'ready' => true, 'lastmove' => 'Pe2e4', 'secondsleft' => 900})
-    end
-
-    it "should return new move from server" do
-      response = @pinger.ping
-
-      response['lastmove'].should match(/^[KQRBNP][a-h][1-8][a-h][1-8][QRBN]?/)
-    end
-  end
 end
-
-
