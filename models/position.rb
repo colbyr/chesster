@@ -2,7 +2,6 @@
 # particular point in the game
 
 require './models/piece.rb'
-require './lib/human_board.rb'
 
 class Position
   attr_reader :white, :black
@@ -138,7 +137,7 @@ class Position
       #TODO Print in order
       p = self[coordinate]
       if p == nil
-        piece = '__ '
+        piece = '_ '
       else
         color = p[0]
         piece = p[1]
@@ -152,32 +151,49 @@ class Position
 
       case piece
       when :pawn
-        print output += 'P '
+        if color == :white
+          print [0x2659].pack('U*') + ' '
+        else
+          print [0x265F].pack('U*') + ' '
+        end
       when :rook
-        print output += 'R '
+        if color == :white
+          print [0x2656].pack('U*') + ' '
+        else
+          print [0x265C].pack('U*') + ' '
+        end
       when :knight
-        print output += 'N '
+        if color == :white
+          print [0x2658].pack('U*') + ' '
+        else
+          print [0x265E].pack('U*') + ' '
+        end
       when :bishop
-        print output += 'B '
+        if color == :white
+          print [0x2657].pack('U*') + ' '
+        else
+          print [0x265D].pack('U*') + ' '
+        end
       when :king
-        print output += 'K '
+        if color == :white
+          print [0x2654].pack('U*') + ' '
+        else
+          print [0x265A].pack('U*') + ' '
+        end
       when :queen
-        print output += 'Q '
-      when '__ '
-        print '__ '
+        if color == :white
+          print [0x2655].pack('U*') + ' '
+        else
+          print [0x265B].pack('U*') + ' '
+        end
+      when '_ '
+        print '_ '
       else
         print 'derp'
       end
       print "\n" if count % 8 == 0
       count = count +1
     }
-    #@white.each { |piece,position|
-      #puts piece
-      ##bitboard.each {|bit| 
-        
-      ##}
-    #}
-
   end
 
   private
