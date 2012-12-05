@@ -32,4 +32,10 @@ describe SearchTree do
     res[1].should be_an_instance_of Position
   end
 
+  it 'should return a Position' do
+    s = SearchTree.new
+    res = s.search(s.generate)
+    res.should be_an_instance_of Position
+  end
+
 end
