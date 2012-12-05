@@ -8,8 +8,9 @@ describe SearchTree do
     response.class.should eq(Position)
   end
 
-  it "should return a random integer" do
-    SearchTree.new.heuristic.should be_a_kind_of Numeric
+  it "heuristic should return an integer" do
+    s = SearchTree.new
+    s.heuristic(s.generate).should be_a_kind_of Numeric
   end
 
   it 'should throw an NIL exception' do
