@@ -2,9 +2,31 @@
 # particular point in the game
 
 require './models/piece.rb'
+require './lib/human_board.rb'
 
 class Position
   attr_reader :white, :black
+
+  HUMAN_BOARD = [[nil, nil, nil, nil, nil, nil, nil, nil],
+                 [nil, nil, nil, nil, nil, nil, nil, nil],
+                 [nil, nil, nil, nil, nil, nil, nil, nil],
+                 [nil, nil, nil, nil, nil, nil, nil, nil],
+                 [nil, nil, nil, nil, nil, nil, nil, nil],
+                 [nil, nil, nil, nil, nil, nil, nil, nil],
+                 [nil, nil, nil, nil, nil, nil, nil, nil],
+                 [nil, nil, nil, nil, nil, nil, nil, nil],
+  ]
+
+  @@positions =
+    {:a8 => 56, :b8 => 57, :c8 => 58, :d8 => 59, :e8 => 60, :f8 => 61, :g8 => 62, :h8 => 63, 
+     :a7 => 48, :b7 => 49, :c7 => 50, :d7 => 51, :e7 => 52, :f7 => 53, :g7 => 54, :h7 => 55,
+     :a6 => 40, :b6 => 41, :c6 => 42, :d6 => 43, :e6 => 44, :f6 => 45, :g6 => 46, :h6 => 47,
+     :a5 => 32, :b5 => 33, :c5 => 34, :d5 => 35, :e5 => 36, :f5 => 37, :g5 => 38, :h5 => 39,
+     :a4 => 24, :b4 => 25, :c4 => 26, :d4 => 27, :e4 => 28, :f4 => 29, :g4 => 30, :h4 => 31,
+     :a3 => 16, :b3 => 17, :c3 => 18, :d3 => 19, :e3 => 20, :f3 => 21, :g3 => 22, :h3 => 23,
+     :a2 =>  8, :b2 =>  9, :c2 => 10, :d2 => 11, :e2 => 12, :f2 => 13, :g2 => 14, :h2 => 15,
+     :a1 =>  0, :b1 =>  1, :c1 =>  2, :d1 =>  3, :e1 =>  4, :f1 =>  5, :g1 =>  6, :h1 =>  7 }
+
 
   def initialize(white={}, black={})
     @white = white
@@ -40,7 +62,7 @@ class Position
     to = move[1]
     piece = self[from]
 
-    # puts 'Moving piece from ' + from.to_s + ' to ' + to.to_s
+     puts 'Moving piece from ' + from.to_s + ' to ' + to.to_s
 
     self[to] = piece
     self[from] = nil
@@ -49,10 +71,14 @@ class Position
   end
 
   def [](square)
-    raise ArgumentError, "#{square} is not a valid square, :a1,...,:h8 expected" unless Square.include?(square)
-    @white.each { |piece, position| return [:white, piece] if position.set?(square) }
-    @black.each { |piece, position| return [:black, piece] if position.set?(square) }
-    nil # Really weird fall-through...
+    if square == nil
+      return nil
+    else
+      raise ArgumentError, "#{square} is not a valid square, :a1,...,:h8 expected" unless Square.include?(square)
+      @white.each { |piece, position| return [:white, piece] if position.set?(square) }
+      @black.each { |piece, position| return [:black, piece] if position.set?(square) }
+      nil # Really weird fall-through...
+    end
   end
 
   def set?(square)
@@ -94,6 +120,64 @@ class Position
     all = Bitboard.new
     @black.each_value{|piece| all |= piece.bitboard }
     all
+  end
+
+  def to_s
+    count = 1
+    human_board = [[nil, nil, nil, nil, nil, nil, nil, nil],
+                   [nil, nil, nil, nil, nil, nil, nil, nil],
+                   [nil, nil, nil, nil, nil, nil, nil, nil],
+                   [nil, nil, nil, nil, nil, nil, nil, nil],
+                   [nil, nil, nil, nil, nil, nil, nil, nil],
+                   [nil, nil, nil, nil, nil, nil, nil, nil],
+                   [nil, nil, nil, nil, nil, nil, nil, nil],
+                   [nil, nil, nil, nil, nil, nil, nil, nil],
+    ]
+
+    @@positions.each { |coordinate, value|
+      #TODO Print in order
+      p = self[coordinate]
+      if p == nil
+        piece = '__ '
+      else
+        color = p[0]
+        piece = p[1]
+
+        if p[0] == :white
+          output = 'w'
+        else
+          output = 'b'
+        end
+      end
+
+      case piece
+      when :pawn
+        print output += 'P '
+      when :rook
+        print output += 'R '
+      when :knight
+        print output += 'N '
+      when :bishop
+        print output += 'B '
+      when :king
+        print output += 'K '
+      when :queen
+        print output += 'Q '
+      when '__ '
+        print '__ '
+      else
+        print 'derp'
+      end
+      print "\n" if count % 8 == 0
+      count = count +1
+    }
+    #@white.each { |piece,position|
+      #puts piece
+      ##bitboard.each {|bit| 
+        
+      ##}
+    #}
+
   end
 
   private
