@@ -19,4 +19,9 @@ describe SearchTree do
     expect { @s.minimax(nil, 0, true) }.to raise_error
   end
 
+  it 'should return a heuristic value' do
+    @s = SearchTree.new
+    @s.minimax(@s.generate, 0, true).should be_a_kind_of Numeric
+  end
+
 end

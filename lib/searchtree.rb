@@ -15,6 +15,12 @@ class SearchTree
     position
   end
 
+  def heuristic
+    # 1. Our pieces - opponents pieces
+    # 2. Then weight pieces
+    Random.rand(-1_000_000..1_000_000)
+  end
+
   def minimax(position, depth, whiteTurn)
     raise 'NIL is not a valid position' if position.nil?
     puts 'Current depth: ' + depth.to_s
@@ -34,12 +40,6 @@ class SearchTree
       end
       return alpha
     end
-  end
-
-  def heuristic
-    # 1. Our pieces - opponents pieces
-    # 2. Then weight pieces
-    Random.rand(-1_000_000..1_000_000)
   end
 
 end
