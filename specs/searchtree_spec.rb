@@ -9,19 +9,19 @@ describe SearchTree do
   end
 
   it "should return a random integer" do
-    @s = SearchTree.new
-    heuristic = @s.heuristic
-    heuristic.class.should eq Fixnum
+    SearchTree.new.heuristic.should be_a_kind_of Numeric
   end
 
   it 'should throw an NIL exception' do
-    @s = SearchTree.new
-    expect { @s.minimax(nil, 0, true) }.to raise_error
+    expect { SearchTree.new.minimax(nil, 0, true) }.to raise_error
   end
 
-  it 'should return a heuristic value' do
-    @s = SearchTree.new
-    @s.minimax(@s.generate, 0, true).should be_a_kind_of Numeric
+  it 'should return a heuristic-position tuple for depth 0' do
+    s = SearchTree.new
+    res = s.minimax(s.generate, 0, true)
+    res.should be_a_kind_of Array
+    res[0].should be_a_kind_of Numeric
+    res[1].should be_an_instance_of Position
   end
 
 end
