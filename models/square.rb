@@ -14,7 +14,7 @@ class Square
   def self.position(square)
     @@positions[Square.to_sym(square)]
   end
-  
+
   # Value of key
   def self.index(position)
     @@positions.key(position)

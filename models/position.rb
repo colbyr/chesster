@@ -41,10 +41,10 @@ class Position
     piece = self[from]
 
     puts 'Moving piece from ' + from.to_s + ' to ' + to.to_s
-    
+
     self[to] = piece
     self[from] = nil
-    
+
     self
   end
 
@@ -99,10 +99,12 @@ class Position
   private
   def clear!(square)
     piece = self[square]
-    if piece[0] == :white
-      @white[piece[1]].clear! square
-    else
-      @black[piece[1]].clear! square
+    if !piece.nil?
+      if piece[0] == :white
+        @white[piece[1]].clear! square
+      else
+        @black[piece[1]].clear! square
+      end
     end
     nil
   end

@@ -23,15 +23,15 @@ class SearchTree
 
   def minimax(position, depth, whiteTurn)
     raise 'NIL is not a valid position' if position.nil?
-    puts 'Current depth: ' + depth.to_s
-    puts 'White turn? ' + whiteTurn.to_s
+    # puts 'Current depth: ' + depth.to_s
+    # puts 'White turn? ' + whiteTurn.to_s
     result = [-Float::INFINITY, position]
 
     @current_state = position
 
     #TODO Detect check/end of game
     if depth > 0
-      puts 'going in with alpha of: ' + result[0].to_s
+      # puts 'going in with alpha of: ' + result[0].to_s
       for move in Move.new(position).gen_all_moves(whiteTurn ? :white : :black)
         test = minimax(position.move!(move), depth-1, !whiteTurn)
         result = result[0] > -(test[0]) ? result : test

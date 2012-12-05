@@ -24,4 +24,12 @@ describe SearchTree do
     res[1].should be_an_instance_of Position
   end
 
+  it 'should return a heuristic-position tuple' do
+    s = SearchTree.new
+    res = s.minimax(s.generate, 2, true)
+    res.should be_a_kind_of Array
+    res[0].should be_a_kind_of Numeric
+    res[1].should be_an_instance_of Position
+  end
+
 end
