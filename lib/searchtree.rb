@@ -16,13 +16,17 @@ class SearchTree
     position
   end
 
-  def heuristic(position)
+  def heuristic(position, our_color)
     # 1. Our pieces - opponents pieces
-    #   TODO: We need to determine what color we are
     # 2. Then weight pieces
     number_of_white_pieces = position.white_pieces.set_bits.length
     number_of_black_pieces = position.black_pieces.set_bits.length
-    number_of_white_pieces - number_of_black_pieces
+
+    if our_color == :white
+      number_of_white_pieces - number_of_black_pieces
+    else
+      number_of_black_pieces - number_of_white_pieces
+    end
   end
 
   def minimax(position, depth, whiteTurn)
@@ -30,7 +34,7 @@ class SearchTree
     # puts 'Current depth: ' + depth.to_s
     # puts 'White turn? ' + whiteTurn.to_s
     @nodes_visited += 1
-    result = [heuristic(position), position]
+    result = [heuristic(position, :white), position]
 
     @current_state = position
 
