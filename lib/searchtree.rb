@@ -16,6 +16,7 @@ class SearchTree
   end
 
   def minimax(position, depth, whiteTurn)
+    raise 'NIL is not a valid position' if position.nil?
     puts 'Current depth: ' + depth.to_s
     puts 'White turn? ' + whiteTurn.to_s
 

@@ -14,4 +14,9 @@ describe SearchTree do
     heuristic.class.should eq Fixnum
   end
 
+  it 'should throw an NIL exception' do
+    @s = SearchTree.new
+    expect { @s.minimax(nil, 0, true) }.to raise_error
+  end
+
 end
