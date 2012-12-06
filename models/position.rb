@@ -49,6 +49,10 @@ class Position
     nil
   end
 
+  def deep_copy
+    Marshal.load(Marshal.dump(self))
+  end
+
   # Perform a move of format [:current_position_of_piece_to_move,
   # :position to move to]
   #
