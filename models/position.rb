@@ -61,7 +61,7 @@ class Position
     to = move[1]
     piece = self[from]
 
-     puts 'Moving piece from ' + from.to_s + ' to ' + to.to_s
+     #puts 'Moving piece from ' + from.to_s + ' to ' + to.to_s
 
     self[to] = piece
     self[from] = nil
