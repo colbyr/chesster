@@ -6,7 +6,10 @@ class SearchTree
   attr_reader :current_state
 
   def initialize(state=generate)
+    @color = :white
     @current_state = state
+    @depth = 3
+    @heuristic_bound = 1000000
     @nodes_visited = 0
   end
 
@@ -16,47 +19,63 @@ class SearchTree
     position
   end
 
-  def heuristic(position, our_color)
+  def heuristic(position)
     # 1. Our pieces - opponents pieces
     # 2. Then weight pieces
     number_of_white_pieces = position.white_pieces.set_bits.length
     number_of_black_pieces = position.black_pieces.set_bits.length
 
-    if our_color == :white
+    if @color == :white
       number_of_white_pieces - number_of_black_pieces
     else
       number_of_black_pieces - number_of_white_pieces
     end
   end
 
-  def minimax(position, depth, whiteTurn)
-    raise 'NIL is not a valid position' if position.nil?
-    # puts 'Current depth: ' + depth.to_s
-    # puts 'White turn? ' + whiteTurn.to_s
-    @nodes_visited += 1
-    result = [heuristic(position, :white), position]
-
-    @current_state = position
-
-    # TODO Detect check/end of game
-    if depth > 0
-      # puts 'going in with alpha of: ' + result[0].to_s
-      for move in Move.new(position).gen_all_moves(whiteTurn ? :white : :black)
-        @nodes_visited += 1
-        test = minimax(position.move!(move), depth-1, !whiteTurn)
-        result = (result[0] > -(test[0])) ? result : test
-      end
+  def get_color(player)
+    raise 'player must equal 1 or -1' if player.abs != 1
+    if player == 1
+      @color
+    else
+      @color == :white ? :black : :white
     end
-    return result
   end
 
-  def search(position)
-    res = minimax(position, 6, true)
+  def minimax(position, depth, player)
+    raise 'NIL is not a valid position' if position.nil?
+    raise 'player must equal 1 or -1' if player.abs != 1
+    @nodes_visited += 1
+    # TODO Detect check/end of game
+    if depth > 0
+      alpha = @heuristic_bound * -player
+      next_player = player * -1
+      for move in Move.new(position).gen_all_moves(get_color(player))
+        @nodes_visited += 1
+        test = minimax(position.move!(move), depth-1, next_player)
+        opts = [alpha, test]
+        alpha = (player == 1) ? opts.max : opts.min
+        if depth == 100
+          # puts (player == 1 ? 'max' : 'min') + ': from ' + opts.to_s + ' chose ' + alpha.to_s
+        end
+      end
+    else
+      alpha = heuristic position
+    end
+    return alpha
+  end
+
+  def search(position, player=1)
+    raise 'player must equal 1 or -1' if player.abs != 1
+    res = [@heuristic_bound * player, nil]
+    Move.new(position).gen_all_moves(get_color(player)).each {|move|
+      pos = position.move!(move)
+      alpha = minimax(pos, @depth - 1, -player)
+      test = [alpha, move]
+      res = res[0] < test[0] ? res : test
+    }
     puts
     puts 'alpha: ' + res[0].to_s
     puts 'nodes: ' + @nodes_visited.to_s
-    puts 'position: '
-    puts position.to_s
     return res[1]
   end
 
