@@ -53,6 +53,10 @@ class Position
     Marshal.load(Marshal.dump(self))
   end
 
+  def over?
+    @black[:king].gone? || @white[:king].gone?
+  end
+
   # Perform a move of format [:current_position_of_piece_to_move,
   # :position to move to]
   #

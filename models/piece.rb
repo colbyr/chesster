@@ -57,6 +57,10 @@ class Piece
     @bitboard.set_bits
   end
 
+  def gone?
+    @bitboard.empty?
+  end
+
   private
   def make_piece(bitboard)
     new_piece = Piece.new

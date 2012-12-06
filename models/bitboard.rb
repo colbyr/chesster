@@ -66,6 +66,10 @@ class Bitboard
     !set?(index)
   end
 
+  def empty?
+    self == 0
+  end
+
   # Array of bits that are set with index
   def set_bits
     bits = []
