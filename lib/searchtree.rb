@@ -56,7 +56,7 @@ class SearchTree
     puts 'alpha: ' + res[0].to_s
     puts 'nodes: ' + @nodes_visited.to_s
     puts 'position: '
-    position.to_s
+    puts position.to_s
     return res[1]
   end
 

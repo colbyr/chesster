@@ -133,67 +133,63 @@ class Position
                    [nil, nil, nil, nil, nil, nil, nil, nil],
     ]
 
+    output = ''
+
     @@positions.each { |coordinate, value|
-      #TODO Print in order
       p = self[coordinate]
       if p == nil
         piece = '_ '
       else
         color = p[0]
         piece = p[1]
-
-        if p[0] == :white
-          output = 'w'
-        else
-          output = 'b'
-        end
       end
 
       case piece
       when :pawn
         if color == :white
-          print [0x2659].pack('U*') + ' '
+          output += [0x2659].pack('U*') + ' '
         else
-          print [0x265F].pack('U*') + ' '
+          output += [0x265F].pack('U*') + ' '
         end
       when :rook
         if color == :white
-          print [0x2656].pack('U*') + ' '
+          output += [0x2656].pack('U*') + ' '
         else
-          print [0x265C].pack('U*') + ' '
+          output += [0x265C].pack('U*') + ' '
         end
       when :knight
         if color == :white
-          print [0x2658].pack('U*') + ' '
+          output += [0x2658].pack('U*') + ' '
         else
-          print [0x265E].pack('U*') + ' '
+          output += [0x265E].pack('U*') + ' '
         end
       when :bishop
         if color == :white
-          print [0x2657].pack('U*') + ' '
+          output += [0x2657].pack('U*') + ' '
         else
-          print [0x265D].pack('U*') + ' '
+          output += [0x265D].pack('U*') + ' '
         end
       when :king
         if color == :white
-          print [0x2654].pack('U*') + ' '
+          output += [0x2654].pack('U*') + ' '
         else
-          print [0x265A].pack('U*') + ' '
+          output += [0x265A].pack('U*') + ' '
         end
       when :queen
         if color == :white
-          print [0x2655].pack('U*') + ' '
+          output += [0x2655].pack('U*') + ' '
         else
-          print [0x265B].pack('U*') + ' '
+          output += [0x265B].pack('U*') + ' '
         end
       when '_ '
-        print '_ '
+        output += '_ '
       else
-        print 'derp'
+        output += 'derp'
       end
-      print "\n" if count % 8 == 0
+      output += "\n" if count % 8 == 0
       count = count +1
     }
+    output
   end
 
   private
