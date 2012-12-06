@@ -6,7 +6,7 @@ require 'celluloid'
 
 class Chesster
   include Celluloid
-  
+
   attr_reader :notified, :state
   attr_accessor :pinger
 
@@ -15,8 +15,8 @@ class Chesster
     @ponger = Ponger.new(game_id, team_number, team_secret)
     @state = State.new
     @searcher = SearchTree.new
-    
-    register 
+
+    register
   end
 
   def notify_of_new_move(last_move, last_move_number)
@@ -27,7 +27,7 @@ class Chesster
     do_move(move) 
     puts 'State is now: '
     self.state.current_position.to_s
-    
+
     new_move = find_move
     move_string = self.state.current_position.string_from_move(new_move)
     do_move(new_move)
