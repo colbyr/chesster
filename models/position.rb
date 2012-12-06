@@ -77,6 +77,14 @@ class Position
     deep_copy.move!(move)
   end
 
+  def move_from_string(move_string)
+    from = move_string[1..2].to_sym
+    to = move_string[3..4].to_sym
+    promotion = move_string[5]
+
+    self.move([from, to])
+  end
+
   def [](square)
     if square == nil
       return nil
