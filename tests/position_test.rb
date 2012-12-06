@@ -111,6 +111,13 @@ class PositionTest < Test::Unit::TestCase
     end
   end
 
+  def test_deep_copy
+    p1 = Position.new
+    p1.new_game!
+    p2 = p1.deep_copy
+    assert_equal((p2 != p1), true)
+  end
+
   private
   def new_game_position
     position = Position.new
