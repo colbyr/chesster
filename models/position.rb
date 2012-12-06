@@ -85,6 +85,33 @@ class Position
     self.move([from, to])
   end
 
+  def string_from_move(move)
+    piece = self[move[0]]
+    p = ''
+
+    case piece[1]
+    when :pawn
+      p = 'P'
+    when :rook
+      p = 'R'
+    when :knight
+      p = 'N'
+    when :bishop
+      p = 'B'
+    when :king
+      p = 'K'
+    when :queen
+      p = 'Q'
+    end
+
+    from = move[0].to_s
+    to = move[1].to_s
+
+    promotion = nil
+
+    p.to_s + from.to_s + to.to_s + promotion.to_s
+  end
+
   def [](square)
     if square == nil
       return nil
