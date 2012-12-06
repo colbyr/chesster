@@ -73,6 +73,10 @@ class Position
     self
   end
 
+  def move(move)
+    deep_copy.move!(move)
+  end
+
   def [](square)
     if square == nil
       return nil

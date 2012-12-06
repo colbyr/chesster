@@ -51,7 +51,7 @@ class SearchTree
       next_player = player * -1
       for move in Move.new(position).gen_all_moves(get_color(player))
         @nodes_visited += 1
-        test = minimax(position.move!(move), depth-1, next_player)
+        test = minimax(position.move(move), depth-1, next_player)
         opts = [alpha, test]
         alpha = (player == 1) ? opts.max : opts.min
         if depth == 100
@@ -68,7 +68,7 @@ class SearchTree
     raise 'player must equal 1 or -1' if player.abs != 1
     res = [@heuristic_bound * player, nil]
     Move.new(position).gen_all_moves(get_color(player)).each {|move|
-      pos = position.move!(move)
+      pos = position.move(move)
       alpha = minimax(pos, @depth - 1, -player)
       test = [alpha, move]
       res = res[0] < test[0] ? res : test
