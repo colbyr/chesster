@@ -12,7 +12,7 @@ class Chesster
 
   def initialize(game_id, team_number, team_secret)
     @pinger = Pinger.new(game_id, team_number, team_secret)
-    @ponger = Ponger.new
+    @ponger = Ponger.new(game_id, team_number, team_secret)
     @state = State.new
     @searcher = SearchTree.new
     
@@ -23,7 +23,10 @@ class Chesster
     #TODO: Interrupt searching
     #TODO: Check last move number and make sure we are in sync
     puts 'Got notified of new move: ' + last_move
-    self.state.current_position = self.state.current_position.move_from_string last_move
+    move = self.state.current_position.move_from_string last_move
+    do_move(move) 
+    puts 'State is now: '
+    self.state.current_position.to_s
     do_move(find_move)
 
     puts 'Moved:'

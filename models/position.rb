@@ -82,7 +82,7 @@ class Position
     to = move_string[3..4].to_sym
     promotion = move_string[5]
 
-    self.move([from, to])
+    [from, to]
   end
 
   def string_from_move(move)

@@ -121,8 +121,8 @@ class PositionTest < Test::Unit::TestCase
   def test_move_from_string
     p1 = Position.new
     p1.new_game!
-    p2 = p1.move_from_string('Pd2d3')
-    assert p2[:d3] == [:white, :pawn]
+    res = p1.move_from_string('Pd2d3')
+    assert res == [:d2, :d3]
   end
 
   def test_string_from_move
