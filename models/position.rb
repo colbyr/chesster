@@ -27,6 +27,16 @@ class Position
      :a1 =>  0, :b1 =>  1, :c1 =>  2, :d1 =>  3, :e1 =>  4, :f1 =>  5, :g1 =>  6, :h1 =>  7 }
 
 
+  def valuate(color)
+    pieces = color == :white ? @white : @black
+    pieces[:pawn].length * 1 +
+    pieces[:knight].length * 3 +
+    pieces[:bishop].length * 3 +
+    pieces[:rook].length * 5 +
+    pieces[:queen].length * 9 +
+    pieces[:king].length * 100
+  end
+
   def initialize(white={}, black={})
     @white = white
     @black = black

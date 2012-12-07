@@ -70,6 +70,10 @@ class Bitboard
     self == 0
   end
 
+  def value
+    @value
+  end
+
   # Array of bits that are set with index
   def set_bits
     bits = []

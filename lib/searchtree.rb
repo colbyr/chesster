@@ -15,7 +15,7 @@ class SearchTree
     @color = color
     @current_state = state
     @depth = 4
-    @heuristic_bound = 1000000
+    @heuristic_bound = Float::INFINITY
     @nodes_visited = 0
     @move = 0
     @open_length = @@opening.size
@@ -33,11 +33,8 @@ class SearchTree
     number_of_white_pieces = position.white_pieces.set_bits.length
     number_of_black_pieces = position.black_pieces.set_bits.length
 
-    if (@color == :white && player == 1) or (@color == :black && play == -1)
-      number_of_white_pieces - number_of_black_pieces
-    else
-      number_of_black_pieces - number_of_white_pieces
-    end
+    color = get_color(player)
+    position.valuate(color) - position.valuate(color == :white ? :black : :white)
   end
 
   def get_color(player)
@@ -85,6 +82,7 @@ class SearchTree
       test = [alpha, move]
       res = res[0] > test[0] ? res : test
     }
+    puts 'alpha ' + res[0].to_s
     return res[1]
   end
 

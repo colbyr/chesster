@@ -13,6 +13,18 @@ class Piece
     occupied.each{|p| set!(p)}
   end
 
+  def length
+    count = 0
+    value = @bitboard.value
+    while value > 0 do
+      if (value & 1) == 1
+        count += 1
+      end
+      value = value >> 1
+    end
+    count
+  end
+
   def ==(other)
     @bitboard == other.bitboard
   end
