@@ -12,7 +12,7 @@ while !game.over? do
 
   if turn
     puts 'Chesster\'s move...'
-    move = s.search(game, 2)
+    move = s.search(game, 4)
   else
     print 'your move: '
     raw = gets.chomp
