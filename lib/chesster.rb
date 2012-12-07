@@ -10,9 +10,9 @@ class Chesster
   attr_reader :notified, :state
   attr_accessor :pinger
 
-  def initialize(game_id, team_number, team_secret)
+  def initialize(game_id, team_number, team_secret, color)
     @state = State.new
-    @searcher = SearchTree.new
+    @searcher = SearchTree.new(color)
     register(game_id, team_number, team_secret)
   end
 

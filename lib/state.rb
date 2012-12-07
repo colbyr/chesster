@@ -13,7 +13,7 @@ class State
   end
 
   def can_castle
-    false 
+    false
   end
 
   def switch_current_turn!
