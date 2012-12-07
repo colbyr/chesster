@@ -65,12 +65,14 @@ class Position
   #
   # TODO: Detect capture
   def move!(move)
+    raise 'move is NIL' if move.nil?
     from = move[0]
     to = move[1]
     piece = self[from]
 
-     #puts 'Moving piece from ' + from.to_s + ' to ' + to.to_s
+    #puts 'Moving piece from ' + from.to_s + ' to ' + to.to_s
 
+    clear!(to)
     self[to] = piece
     self[from] = nil
 
