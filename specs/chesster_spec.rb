@@ -5,15 +5,15 @@ describe Chesster do
 
 
   it "should register chesster" do
-    @c = Chesster.new(11,1,"32c68cae")
+    @c = Chesster.new(11,1,"32c68cae", :white)
     Celluloid::Actor[:chesster].should eq(@c)
   end
 
   it "should keep track of the state" do
-    @c = Chesster.new(11,1,"32c68cae")
+    @c = Chesster.new(11,1,"32c68cae", :white)
     @c.state.current_player.should eq(:white)
   end
-    
+
   #TODO
   #context "there is a new move" do
     #it 'should make a new move' do
