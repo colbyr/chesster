@@ -22,21 +22,28 @@ print 'Please enter your your game id: '
 game_id = gets.chomp.to_i
 puts
 
-print 'Please enter which player you would like to play as (1, 2): '
+print 'Please enter your team number: '
 my_team_id = gets.chomp.to_i
 puts
 
-print 'Please enter which player chesster should play as (1, 2): '
+print 'Please enter your team secret: '
+my_secret = gets.chomp
+
+print 'Please enter chessters team number: '
 chesster_team_id = gets.chomp.to_i
+puts
+
+print 'What is chesters team secret?'
+chesster_secret = gets.chomp
+
+print 'Which color would you like to play as?'
+my_color = gets.chomp.to_sym
 puts
 
 puts 'Please and thank you.'
 
-#TODO Detect color we are playing as and pass it in
-chesster = Chesster.new(game_id, chesster_team_id, (chesster_team_id == 1 ? @team_1_secret : @team_2_secret))
-my_ponger = Ponger.new(game_id, my_team_id, (my_team_id == 1 ? @team_1_secret : @team_2_secret))
-#chesster = Chesster.new(48, 2, @team_2_secret, :black)
-#my_ponger = Ponger.new(48, 1, @team_1_secret)
+chesster = Chesster.new(game_id, chesster_team_id, chesster_secret, my_color == :white ? :black : :white)
+my_ponger = Ponger.new(game_id, my_team_id, my_secret)
 
 puts 'The state currently is:'
 puts chesster.state.current_position.to_s
