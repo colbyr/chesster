@@ -1,12 +1,21 @@
 require './lib/searchtree.rb'
 
-s = SearchTree.new
+color = ''
+while (color != 'white' && color != 'black')
+  print 'pick your color: '
+  color = gets.chomp
+end
+
+chester_color = (color == 'white') ? :black : :white
+puts 'Chesster is ' + chester_color.to_s
+puts 'You are ' + color
+
+s = SearchTree.new(chester_color)
 
 game = s.generate
-turn = true
+turn = chester_color == :white
 
-def get_move
-end
+puts game.to_s
 
 while !game.over? do
 

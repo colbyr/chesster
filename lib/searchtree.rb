@@ -11,7 +11,7 @@ class SearchTree
     [:c4, :f7]
   ]
 
-  def initialize(color=:white, state=generate)
+  def initialize(color=:white, opening=false, state=generate)
     @color = color
     @current_state = state
     @depth = 4
@@ -19,6 +19,7 @@ class SearchTree
     @nodes_visited = 0
     @move = 0
     @open_length = @@opening.size
+    @use_opening = opening
   end
 
   def generate
@@ -86,7 +87,7 @@ class SearchTree
     raise 'player must equal 1 or -1' if player.abs != 1
     pre = self.next
     @move += 1
-    if !pre.nil?
+    if !pre.nil? && @use_opening
       return pre
     end
     a = -Float::INFINITY
