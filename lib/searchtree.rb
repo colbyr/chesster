@@ -50,18 +50,31 @@ class SearchTree
     @move < @open_length ? @@opening[@move] : nil
   end
 
-  def minimax(position, depth, player)
+  def minimax(position, depth, a, b, player)
     raise 'NIL is not a valid position' if position.nil?
     raise 'player must equal 1 or -1' if player.abs != 1
     @nodes_visited += 1
     if position.over?
       alpha = @heuristic_bound * -player
     elsif depth > 0
-      alpha = @heuristic_bound * -player
-      for move in Move.new(position).gen_all_moves(get_color(player))
-        @nodes_visited += 1
-        test = minimax(position.move(move), depth-1, -player)
-        alpha = (player == 1) ? [alpha, test].max : [alpha, test].min
+      if player == 1
+        for move in Move.new(position).gen_all_moves(get_color(player))
+          @nodes_visited += 1
+          a = [a, minimax(position.move(move), depth-1, a, b, -player)].max
+          if b <= a
+            break
+          end
+        end
+        alpha = a
+      else
+        for move in Move.new(position).gen_all_moves(get_color(player))
+          @nodes_visited += 1
+          b = [b, minimax(position.move(move), depth-1, a, b, -player)].min
+          if b <= a
+            break
+          end
+        end
+        alpha = b
       end
     else
       alpha = heuristic(position, player)
@@ -76,10 +89,12 @@ class SearchTree
     if !pre.nil?
       return pre
     end
+    a = -Float::INFINITY
+    b = Float::INFINITY
     res = [@heuristic_bound * -player, nil]
     Move.new(position).gen_all_moves(get_color(player)).each {|move|
       pos = position.move(move)
-      alpha = minimax(pos, depth - 1, -player)
+      alpha = minimax(pos, depth - 1, a, b, -player)
       test = [alpha, move]
       res = res[0] > test[0] ? res : test
     }
