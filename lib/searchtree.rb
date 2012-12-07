@@ -6,7 +6,7 @@ class SearchTree
   attr_reader :current_state
   @@openings = {
     :black => [
-      [:g8, :f6]  # alekhine defence
+      [[:g8, :f6]]  # alekhine defence
     ],
     :white => [
       []
@@ -25,7 +25,7 @@ class SearchTree
     @nodes_visited = 0
     @move = 0
     @opening = select_opening
-    @open_length = @opening.size
+    @opening_length = @opening.size
     @use_opening = use_opening
   end
 
@@ -90,11 +90,13 @@ class SearchTree
     raise 'player must equal 1 or -1' if player.abs != 1
 
     # use an opening if its set
-    if @use_opening && @move < @open_length
-      puts @opening[@move]
-      return @opening[@move]
+    if @use_opening and @move < @opening_length
+      move = @opening[@move]
+      @move += 1
+      return move
+    else
+      @move += 1
     end
-    @move += 1
 
     a = -Float::INFINITY
     b = Float::INFINITY

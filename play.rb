@@ -21,6 +21,7 @@ while !game.over? do
 
   if turn
     puts 'Chesster\'s move...'
+    puts
     move = s.search(game, 4)
   else
     print 'your move: '
