@@ -84,11 +84,11 @@ class SearchTree
 
   def search(position, depth=@depth, player=1)
     raise 'player must equal 1 or -1' if player.abs != 1
-    # pre = self.next
-    # @move += 1
-    # if !pre.nil?
-    #   return pre
-    # end
+    pre = self.next
+    @move += 1
+    if !pre.nil?
+      return pre
+    end
     a = -Float::INFINITY
     b = Float::INFINITY
     res = [@heuristic_bound * -player, nil]
