@@ -27,6 +27,16 @@ class Position
      :a1 =>  0, :b1 =>  1, :c1 =>  2, :d1 =>  3, :e1 =>  4, :f1 =>  5, :g1 =>  6, :h1 =>  7 }
 
 
+  def valuate(color)
+    pieces = color == :white ? @white : @black
+    pieces[:pawn].length * 1 +
+    pieces[:knight].length * 3 +
+    pieces[:bishop].length * 3 +
+    pieces[:rook].length * 5 +
+    pieces[:queen].length * 9 +
+    pieces[:king].length * 100
+  end
+
   def initialize(white={}, black={})
     @white = white
     @black = black
@@ -53,6 +63,10 @@ class Position
     Marshal.load(Marshal.dump(self))
   end
 
+  def over?
+    @black[:king].gone? || @white[:king].gone?
+  end
+
   # Perform a move of format [:current_position_of_piece_to_move,
   # :position to move to]
   #
@@ -61,12 +75,14 @@ class Position
   #
   # TODO: Detect capture
   def move!(move)
+    raise 'move is NIL' if move.nil?
     from = move[0]
     to = move[1]
     piece = self[from]
 
-     #puts 'Moving piece from ' + from.to_s + ' to ' + to.to_s
+    #puts 'Moving piece from ' + from.to_s + ' to ' + to.to_s
 
+    clear!(to)
     self[to] = piece
     self[from] = nil
 
