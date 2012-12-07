@@ -182,6 +182,7 @@ class Position
 
   def to_s
     count = 1
+    subcount = 1
     human_board = [[nil, nil, nil, nil, nil, nil, nil, nil],
                    [nil, nil, nil, nil, nil, nil, nil, nil],
                    [nil, nil, nil, nil, nil, nil, nil, nil],
@@ -192,7 +193,7 @@ class Position
                    [nil, nil, nil, nil, nil, nil, nil, nil],
     ]
 
-    output = ''
+    output = "a b c d e f g h\n"
 
     @@positions.each { |coordinate, value|
       p = self[coordinate]
@@ -245,8 +246,12 @@ class Position
       else
         output += 'derp'
       end
-      output += "\n" if count % 8 == 0
-      count = count +1
+      if count % 8 == 0
+        output += " " + subcount.to_s
+        output += "\n"
+        subcount = subcount + 1
+      end
+      count = count + 1
     }
     output
   end
