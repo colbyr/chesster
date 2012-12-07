@@ -9,7 +9,7 @@ class SearchTree
       [[:g8, :f6]]  # alekhine defence
     ],
     :white => [
-      []
+      [[:e2, :e3], [:d2, :d4]]
     ]
   }
 
