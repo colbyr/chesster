@@ -33,7 +33,8 @@ class Position
     pieces[:knight].length * 3 +
     pieces[:bishop].length * 3 +
     pieces[:rook].length * 5 +
-    pieces[:queen].length * 9
+    pieces[:queen].length * 9 +
+    pieces[:king].length * 1_000_000
   end
 
   def initialize(white={}, black={})

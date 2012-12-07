@@ -319,13 +319,15 @@ class Move
   #   :position_to_move_to]
  
   def gen_all_moves(color)
-    moves =   gen_pawn_moves    color 
-    moves +=  gen_knight_moves  color 
-    moves +=  gen_bishop_moves  color 
-    moves +=  gen_rook_moves    color 
-    moves +=  gen_queen_moves   color 
-    moves +=  gen_king_moves    color 
-    moves
+    first  =  gen_king_moves    color
+    second  =  gen_queen_moves   color
+    second +=  gen_rook_moves    color
+    second.shuffle
+    third  =  gen_pawn_moves    color
+    third +=  gen_bishop_moves  color
+    third +=  gen_knight_moves  color
+    third.shuffle
+    first += second += third
   end
 
   # debugging helpers
