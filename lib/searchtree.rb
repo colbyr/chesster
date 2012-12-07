@@ -8,7 +8,7 @@ class SearchTree
     [:e2, :e4],
     [:f1, :c4],
     [:d1, :h5],
-    [:h5, :f7]
+    [:c4, :f7]
   ]
 
   def initialize(color=:white, state=generate)
