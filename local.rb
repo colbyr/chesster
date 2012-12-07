@@ -33,10 +33,10 @@ puts
 puts 'Please and thank you.'
 
 #TODO Detect color we are playing as and pass it in
-#chesster = Chesster.new(game_id, chesster_team_id, (chesster_team_id == 1 ? @team_1_secret : @team_2_secret))
-#my_ponger = Ponger.new(game_id, my_team_id, (my_team_id == 1 ? @team_1_secret : @team_2_secret))
-chesster = Chesster.new(48, 2, @team_2_secret, :black)
-my_ponger = Ponger.new(48, 1, @team_1_secret)
+chesster = Chesster.new(game_id, chesster_team_id, (chesster_team_id == 1 ? @team_1_secret : @team_2_secret))
+my_ponger = Ponger.new(game_id, my_team_id, (my_team_id == 1 ? @team_1_secret : @team_2_secret))
+#chesster = Chesster.new(48, 2, @team_2_secret, :black)
+#my_ponger = Ponger.new(48, 1, @team_1_secret)
 
 puts 'The state currently is:'
 puts chesster.state.current_position.to_s

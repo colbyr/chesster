@@ -146,6 +146,61 @@ class MoveTest < Test::Unit::TestCase
     check_expected_moves black, intial_pawns.gen_all_moves(:black)
   end
 
+  def test_kasparov_shirov
+    white = [ [:a2, :a3], [:a2, :a4], [:b1, :a3], [:b1, :c3],
+              [:b1, :d2], [:b2, :b3], [:b2, :b4], [:c1, :d2],
+              [:c1, :e3], [:c1, :f4], [:c1, :g5], [:c1, :h6],
+              [:c2, :a4], [:c2, :b3], [:c2, :c3], [:c2, :d1],
+              [:c2, :d2], [:c2, :e2], [:c4, :c5], [:c4, :d5],
+              [:d3, :e2], [:d3, :e4], [:f1, :d1], [:f1, :e1],
+              [:f3, :d2], [:f3, :e1], [:f3, :e5], [:f3, :g5],
+              [:f3, :h4], [:g1, :h1], [:g2, :g3], [:g2, :g4],
+              [:h2, :h3], [:h2, :h4] ]
+    black = [ [:a6, :b4], [:a6, :b8], [:a6, :c5], [:a6, :c7],
+              [:a8, :b8], [:b7, :b6], [:b7, :b5], [:c6, :c5],
+              [:c8, :d7], [:c8, :e6], [:c8, :f5], [:c8, :g4],
+              [:c8, :h3], [:d5, :c4], [:d6, :a3], [:d6, :b4],
+              [:d6, :b8], [:d6, :c5], [:d6, :c7], [:d6, :e5],
+              [:d6, :e7], [:d6, :f4], [:d6, :g3], [:d6, :h2], 
+              [:d8, :a5], [:d8, :b6], [:d8, :c7], [:d8, :d7], 
+              [:d8, :e7], [:d8, :e8], [:d8, :f6], [:d8, :g5], 
+              [:d8, :h4], [:e4, :c3], [:e4, :c5], [:e4, :d2], 
+              [:e4, :f2], [:e4, :f6], [:e4, :g3], [:e4, :g5], 
+              [:f7, :f5], [:f7, :f6], [:f8, :e8], [:g7, :g5], 
+              [:g7, :g6], [:g8, :h8], [:h7, :h5], [:h7, :h6] ]
+              
+    kasparov = Move.new(game_position_kasparov_shirov)
+    check_expected_moves white, kasparov.gen_all_moves(:white)
+    check_expected_moves black, kasparov.gen_all_moves(:black)
+  end
+
+  def test_benoni_opening
+    white = [ [:a1, :b1], [:a2, :a3], [:a2, :a4], [:b2, :b3],
+              [:b2, :b4], [:c1, :d2], [:c1, :e3], [:c1, :f4],
+              [:c1, :g5], [:c1, :h6], [:c3, :a4], [:c3, :b1], 
+              [:c3, :b5], [:c3, :e2], [:d1, :d2], [:d1, :d3],
+              [:d1, :d4], [:d1, :e2], [:d1, :f3], [:d1, :g4], 
+              [:d1, :h5], [:e1, :d2], [:e1, :e2], [:e4, :e5], 
+              [:f1, :a6], [:f1, :b5], [:f1, :c4], [:f1, :d3], 
+              [:f1, :e2], [:f2, :f3], [:f2, :f4], [:g1, :e2], 
+              [:g1, :f3], [:g1, :h3], [:g2, :g3], [:g2, :g4], 
+              [:h2, :h3], [:h2, :h4] ]
+    black = [ [:a7, :a5], [:a7, :a6], [:b7, :b5], [:b7, :b6],
+              [:b8, :a6], [:b8, :c6], [:b8, :d7], [:c5, :c4],
+              [:c8, :d7], [:c8, :e6], [:c8, :f5], [:c8, :g4],
+              [:c8, :h3], [:d8, :a5], [:d8, :b6], [:d8, :c7],
+              [:d8, :d7], [:e7, :e5], [:e7, :e6], [:e8, :d7],
+              [:e8, :f8], [:f7, :f5], [:f7, :f6], [:g6, :g5], 
+              [:g7, :c3], [:g7, :d4], [:g7, :e5], [:g7, :f6], 
+              [:g7, :f8], [:g7, :h6], [:g8, :f6], [:g8, :h6], 
+              [:h7, :h5], [:h7, :h6] ]
+    benoni = Move.new(game_position_benoni)
+    check_expected_moves white, benoni.gen_all_moves(:white)
+    check_expected_moves black, benoni.gen_all_moves(:black)
+  end
+
+
+
   def test_white_pawn_promotion
     white = [ [:c6, :b5], [:c6, :b6], [:c6, :b7], [:c6, :c5],
               [:c6, :d5], [:c6, :d6], [:c6, :d7], [:c7, :d8],
