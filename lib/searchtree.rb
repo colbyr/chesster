@@ -4,22 +4,29 @@ require './models/position.rb'
 class SearchTree
 
   attr_reader :current_state
-  @@opening = [
-    [:e2, :e4],
-    [:f1, :c4],
-    [:d1, :h5],
-    [:c4, :f7]
-  ]
+  @@openings = {
+    :black => [
+      [:g8, :f6]  # alekhine defence
+    ],
+    :white => [
+      []
+    ]
+  }
 
-  def initialize(color=:white, opening=false, state=generate)
+  def select_opening
+    @@openings[@color].sample
+  end
+
+  def initialize(color=:white, use_opening=true, state=generate)
     @color = color
     @current_state = state
     @depth = 4
     @heuristic_bound = Float::INFINITY
     @nodes_visited = 0
     @move = 0
-    @open_length = @@opening.size
-    @use_opening = opening
+    @opening = select_opening
+    @open_length = @opening.size
+    @use_opening = use_opening
   end
 
   def generate
@@ -45,10 +52,6 @@ class SearchTree
     else
       @color == :white ? :black : :white
     end
-  end
-
-  def next
-    @move < @open_length ? @@opening[@move] : nil
   end
 
   def minimax(position, depth, a, b, player)
@@ -85,11 +88,14 @@ class SearchTree
 
   def search(position, depth=@depth, player=1)
     raise 'player must equal 1 or -1' if player.abs != 1
-    pre = self.next
-    @move += 1
-    if !pre.nil? && @use_opening
-      return pre
+
+    # use an opening if its set
+    if @use_opening && @move < @open_length
+      puts @opening[@move]
+      return @opening[@move]
     end
+    @move += 1
+
     a = -Float::INFINITY
     b = Float::INFINITY
     res = [@heuristic_bound * -player, nil]
