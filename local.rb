@@ -15,6 +15,9 @@ puts '  \_____|_| |_|\___||___/___/\__\___|_|  |______\___/ \___\__,_|_|'
 puts
 puts
 
+puts 'Go to http://www.bencarle.com/chess/startgame to start a game'
+puts 'Then supply the information asked for below'
+
 print 'Please enter your your game id: '
 game_id = gets.chomp.to_i
 puts
