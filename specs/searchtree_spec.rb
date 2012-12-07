@@ -10,7 +10,7 @@ describe SearchTree do
 
   it "heuristic should return an integer" do
     s = SearchTree.new
-    s.heuristic(s.generate).should be_a_kind_of Numeric
+    s.heuristic(s.generate, 1).should be_a_kind_of Numeric
   end
 
   it 'should throw an NIL exception' do
