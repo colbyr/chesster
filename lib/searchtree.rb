@@ -54,8 +54,9 @@ class SearchTree
     raise 'NIL is not a valid position' if position.nil?
     raise 'player must equal 1 or -1' if player.abs != 1
     @nodes_visited += 1
-    # TODO Detect check/end of game
-    if depth > 0 && !position.over?
+    if position.over?
+      alpha = @heuristic_bound * -player
+    elsif depth > 0
       alpha = @heuristic_bound * -player
       for move in Move.new(position).gen_all_moves(get_color(player))
         @nodes_visited += 1
