@@ -11,22 +11,28 @@ class Chesster
   attr_accessor :pinger
 
   def initialize(game_id, team_number, team_secret)
-    @pinger = Pinger.new(game_id, team_number, team_secret)
-    @ponger = Ponger.new(game_id, team_number, team_secret)
     @state = State.new
     @searcher = SearchTree.new
+    register(game_id, team_number, team_secret)
+  end
 
-    register
+  def searching?
+    @is_searching
   end
 
   def notify_of_new_move(last_move, last_move_number)
     #TODO: Interrupt any searches in progress
     #TODO: Check last move number and make sure we are in sync
-    puts 'Got notified of new move: ' + last_move
-    move = self.state.current_position.move_from_string last_move
-    do_move(move) 
-    puts 'State is now: '
-    self.state.current_position.to_s
+
+    if(last_move_number == 0)
+      puts 'Starting game'
+    else
+      puts 'Got notified of new move: ' + last_move
+      move = self.state.current_position.move_from_string last_move
+      do_move(move) 
+      puts 'State is now: '
+      self.state.current_position.to_s
+    end
 
     new_move = find_move
     move_string = self.state.current_position.string_from_move(new_move)
@@ -39,6 +45,7 @@ class Chesster
     @ponger.pong(move_string)
 
     #TODO: Commence searching from current_state in background
+    Actor[:pinger].carry_on
   end
 
   def find_move
@@ -50,7 +57,10 @@ class Chesster
   end
 
   private
-  def register
+  def register(game_id, team_number, team_secret)
     Actor[:chesster] = Actor.current
+    @pinger = Pinger.new(game_id, team_number, team_secret)
+    @ponger = Ponger.new(game_id, team_number, team_secret)
+
   end
 end
