@@ -19,12 +19,12 @@ describe SearchTree do
 
   it 'should return a heuristic value for depth 0' do
     s = SearchTree.new
-    s.minimax(s.generate, 0, 1).should be_a_kind_of Numeric
+    s.minimax(s.generate, 0, -Float::INFINITY, Float::INFINITY, 1).should be_a_kind_of Numeric
   end
 
   it 'should return a heuristic value' do
     s = SearchTree.new
-    s.minimax(s.generate, 2, 1).should be_a_kind_of Numeric
+    s.minimax(s.generate, 2, -Float::INFINITY, Float::INFINITY, 1).should be_a_kind_of Numeric
   end
 
   it 'should return a Move' do
