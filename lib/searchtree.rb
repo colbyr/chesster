@@ -6,10 +6,10 @@ class SearchTree
   attr_reader :current_state
   @@openings = {
     :black => [
-      [[:g8, :f6]]  # alekhine defence
+      [[:g8, :f6], [:e7, :e6]]  # nimzo-indian
     ],
     :white => [
-      [[:e2, :e3], [:d2, :d4]]
+      [[:e2, :e3], [:d2, :d4]]  # queen's pawn game
     ]
   }
 
