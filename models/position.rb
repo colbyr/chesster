@@ -182,7 +182,7 @@ class Position
 
   def to_s
     count = 1
-    subcount = 1
+    subcount = 8
     human_board = [[nil, nil, nil, nil, nil, nil, nil, nil],
                    [nil, nil, nil, nil, nil, nil, nil, nil],
                    [nil, nil, nil, nil, nil, nil, nil, nil],
@@ -249,7 +249,7 @@ class Position
       if count % 8 == 0
         output += " " + subcount.to_s
         output += "\n"
-        subcount = subcount + 1
+        subcount = subcount - 1
       end
       count = count + 1
     }
