@@ -48,6 +48,7 @@ class SearchTree
     @heuristic_bound = Float::INFINITY
     @logging = logging
     @nodes_visited = 0
+    @nodes_since_result = 0
     @move = 0
     @opening = @@openings[@color]
     @opening_length = @opening.size
@@ -57,13 +58,13 @@ class SearchTree
   def minimax(position, depth, a, b, player)
     raise 'NIL is not a valid position' if position.nil?
     raise 'player must equal 1 or -1' if player.abs != 1
-    @nodes_visited += 1
-    if position.over?
-      alpha = @heuristic_bound * -player
-    elsif depth > 0
+    if position.over? && player == -1
+      alpha = @heuristic_bound
+    elsif depth > 0 # && @nodes_visited < @search_limit
       if player == 1
         for move in Move.new(position).gen_all_moves(get_color(player))
           @nodes_visited += 1
+          @nodes_since_result += 1
           a = [a, minimax(position.move(move), depth-1, a, b, -player)].max
           if b <= a
             break
@@ -73,6 +74,7 @@ class SearchTree
       else
         for move in Move.new(position).gen_all_moves(get_color(player))
           @nodes_visited += 1
+          @nodes_since_result += 1
           b = [b, minimax(position.move(move), depth-1, a, b, -player)].min
           if b <= a
             break
@@ -109,7 +111,12 @@ class SearchTree
       pos = position.move(move)
       alpha = minimax(pos, depth - 1, a, b, -player)
       test = [alpha, move]
-      res = res[0] > test[0] ? res : test
+      if res[0] < test[0]
+        res = test
+        @nodes_since_result = 0
+      else
+        @nodes_since_result += 0
+      end
       @nodes_visited += 1
     }
     if @logging
@@ -119,6 +126,7 @@ class SearchTree
       puts 'alpha: ' + res[0].to_s
       puts ' move: ' + res[1].to_s
       puts 'nodes: ' + @nodes_visited.to_s
+      puts 'waste: ' + @nodes_since_result.to_s
       puts ' time: ' + time_taken.to_s
       puts
     end
