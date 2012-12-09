@@ -6,25 +6,20 @@ require './models/position.rb'
 
 class Precalc
 
-  def load
-    CSV.foreach('./moves/' + @color.to_s + '.csv') do |row|
-      @visited[row[0]] = row[1]
-    end
-  end
-
   def initialize(color, depth=6)
     @color = color
+    @continue = true
     @depth = depth
-    @tree = SearchTree.new(:white)
+    @tree = SearchTree.new(@color)
     @next_moves = []
     @start = Position.new.new_game!
     @visited = Sharder.new
   end
 
-  def gen_moves(count=10)
+  def gen_moves()
     i = 1
     precalc @start
-    while !@next_moves.empty? and i <= count do
+    while @continue
       precalc @next_moves.pop
       i += 1
     end
@@ -41,12 +36,20 @@ class Precalc
     if !@visited.include?(key)
       res = @tree.search(position, @depth)
       Move.new(position.move(res)).gen_all_moves(other_color).each { |move|
+        if move[0].nil? or move[1].nil? or !Square.include?(move[0]) or !Square.include?(move[1])
+          puts position.to_s
+          raise "#{move} is invalid"
+        end
         @next_moves.push position.move(move)
       }
       res_s = Move.serialize(res)
       @visited[key] = res
       puts key.to_s + ',' + res_s.to_s
     end
+  end
+
+  def stop
+    @continue = false
   end
 
 end

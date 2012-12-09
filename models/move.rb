@@ -16,7 +16,7 @@ class Move
   def self.unserialize(move)
     move = move.to_s
     from = (@@acoords[move[0].to_i - 1] + move[1]).to_sym
-    to = (@@accords[move[2].to_i - 1] + move[3]).to_sym
+    to = (@@acoords[move[2].to_i - 1] + move[3]).to_sym
     [to, from]
   end
 
@@ -335,6 +335,9 @@ class Move
   #   :position_to_move_to]
  
   def gen_all_moves(color)
+    if @position.over?
+      return []
+    end
     first  =  gen_king_moves    color
     second  =  gen_queen_moves   color
     second +=  gen_rook_moves    color

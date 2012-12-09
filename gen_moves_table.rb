@@ -1,4 +1,13 @@
 require './lib/precalc.rb'
 
-p = Precalc.new(:white, 6)
-p.gen_moves(1_000_000)
+case ARGV[0]
+when 'white'
+  color = :white
+when 'black'
+  color = :black
+else
+  raise 'SON OF A BITCH'
+end
+
+p = Precalc.new(color, 2)
+p.gen_moves()

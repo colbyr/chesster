@@ -12,7 +12,7 @@ class Sharder
 
   def initialize()
     @shards = {}
-    (0..SHARDS).each { |i| @shards[i] = {} }
+    (0..(SHARDS-1)).each { |i| @shards[i] = {} }
   end
 
   def include?(key)
