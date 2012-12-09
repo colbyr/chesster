@@ -12,6 +12,13 @@ class PositionTest < Test::Unit::TestCase
     assert_not_nil Position.new
   end
 
+  def test_serialize
+    p = Position.new
+    p.new_game!
+    p2 = Position.unserialize(p.serialize)
+    assert_equal p.to_s, p2.to_s
+  end
+
   def test_create_start_position
     position = Position.new
     position.new_game!
