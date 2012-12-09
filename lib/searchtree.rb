@@ -125,6 +125,7 @@ class SearchTree
       puts '- - - - - - - - - - - - - - - - -'
       puts 'alpha: ' + res[0].to_s
       puts ' move: ' + res[1].to_s
+      puts ' encd: ' + position.move(res[1]).serialize.to_s
       puts 'nodes: ' + @nodes_visited.to_s
       puts 'waste: ' + @nodes_since_result.to_s
       puts ' time: ' + time_taken.to_s

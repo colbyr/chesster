@@ -10,7 +10,7 @@ chester_color = (color == 'white') ? :black : :white
 puts 'Chesster is ' + chester_color.to_s
 puts 'You are ' + color
 
-s = SearchTree.new(chester_color, true, true)
+s = SearchTree.new(chester_color, false, true)
 
 game = s.generate
 turn = chester_color == :white

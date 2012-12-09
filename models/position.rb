@@ -37,7 +37,18 @@ class Position
     pieces[:king].length * 1_000_000
   end
 
-  def initialize(white={}, black={})
+  def empty_set
+    set = {}
+    set[:pawn] = Piece.new
+    set[:rook] = Piece.new
+    set[:knight] = Piece.new
+    set[:bishop] = Piece.new
+    set[:king] = Piece.new
+    set[:queen] = Piece.new
+    set
+  end
+
+  def initialize(white=empty_set, black=empty_set)
     @white = white
     @black = black
   end
@@ -178,6 +189,41 @@ class Position
     all = Bitboard.new
     @black.each_value{|piece| all |= piece.bitboard }
     all
+  end
+
+  def serialize
+    str = ''
+    @@positions.keys.each { |coord|
+      p = self[coord]
+      if !p.nil?
+        coord = coord.to_s
+        str << (p[0] == :black ? '1' : '2')
+        str << @@lcoords.index(coord[0]).to_s
+        str << (coord[1].to_i - 1).to_s
+        str << @@pieceindex.index(p[1]).to_s
+      end
+    }
+    str.to_i(8)
+  end
+
+  @@lcoords = ('a'..'h').to_a
+  @@pieceindex = [:pawn, :knight, :bishop, :rook, :queen, :king]
+
+  def self.unserialize(key)
+    state = key.to_s(8)
+    len = state.length
+    pos = self.new
+    i = 0
+    until i > len do
+      s = state[i, 4]
+      p = []
+      coord = (@@lcoords[s[1].to_i] + (s[2].to_i + 1).to_s).to_sym
+      p[0] = s[0] == '1' ? :black : :white
+      p[1] = @@pieceindex[s[3].to_i]
+      pos[coord] = p
+      i += 4
+    end
+    pos
   end
 
   def to_s
