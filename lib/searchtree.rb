@@ -57,17 +57,13 @@ class SearchTree
       if player == 1
         for move in Move.new(position).gen_all_moves(get_color(player))
           a = [a, minimax(position.move(move), depth-1, a, b, -player)].max
-          if b <= a
-            break
-          end
+          break if b <= a
         end
         alpha = a
       else
         for move in Move.new(position).gen_all_moves(get_color(player))
           b = [b, minimax(position.move(move), depth-1, a, b, -player)].min
-          if b <= a
-            break
-          end
+          break if b <= a
         end
         alpha = b
       end
@@ -78,21 +74,15 @@ class SearchTree
   end
 
   def search(position, depth=@@depth, player=1)
-    # use an opening if its set
-    puts "move: #{@move}"
     if @move < @opening_length
       move = @opening[@move]
       @move += 1
       return move
     end
 
-    a = -Float::INFINITY
-    b = Float::INFINITY
     res = [@heuristic_bound * -player, nil]
     Move.new(position).gen_all_moves(get_color(player)).each {|move|
-      pos = position.move(move)
-      alpha = minimax(pos, depth - 1, a, b, -player)
-      test = [alpha, move]
+      test = [minimax(position.move(move), depth - 1, -@heuristic_bound, @heuristic_bound, -player), move]
       if res[0] <= test[0]
         res = test
       end

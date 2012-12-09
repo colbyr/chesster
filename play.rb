@@ -26,7 +26,7 @@ while !game.over? do
   else
     print 'your move: '
     raw = gets.chomp
-    move = game.move_from_string raw
+    move = game.move_from_string 'm' + raw
     puts
   end
 
