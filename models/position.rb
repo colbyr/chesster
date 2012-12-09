@@ -67,7 +67,7 @@ class Position
     @black[:bishop] = Piece.new([:c8, :f8])
     @black[:king] = Piece.new([:e8])
     @black[:queen] = Piece.new([:d8])
-    nil
+    self
   end
 
   def deep_copy

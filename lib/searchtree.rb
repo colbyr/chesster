@@ -89,7 +89,8 @@ class SearchTree
   end
 
   def search(position, depth=@@depth, player=1)
-    raise 'player must equal 1 or -1' if player.abs != 1
+    raise 'player must equal 1 or -1' if player.abs != 1 or player.nil?
+    raise 'depth must be a number' if depth.nil?
 
     if @logging
       start_time = Time.now

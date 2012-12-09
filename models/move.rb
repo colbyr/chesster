@@ -1,8 +1,24 @@
 require './models/bitboard.rb'
 
 class Move
-  
+
   attr_reader :position
+
+  @@acoords = ('a'..'h').to_a
+
+  def self.serialize(move)
+    from = move[0].to_s
+    to = move[1].to_s
+    ((@@acoords.index(from[0]) + 1).to_s + from[1] +
+     (@@acoords.index(to[0]) + 1).to_s + to[1]).to_i
+  end
+
+  def self.unserialize(move)
+    move = move.to_s
+    from = (@@acoords[move[0].to_i - 1] + move[1]).to_sym
+    to = (@@accords[move[2].to_i - 1] + move[3]).to_sym
+    [to, from]
+  end
 
   # Create a new Move for a specific position
   # raise an ArgumentError if the initial value is not a Position object
