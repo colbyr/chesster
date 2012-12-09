@@ -19,7 +19,6 @@ class SearchTree
   }
 
   def get_color(player)
-    raise 'player must equal 1 or -1' if player.abs != 1
     if player == 1
       @color
     else
@@ -43,28 +42,20 @@ class SearchTree
     position.valuate(color) - position.valuate(color == :white ? :black : :white)
   end
 
-  def initialize(color=:white, use_opening=true, logging=false)
+  def initialize(color=:white)
     @color = color
     @heuristic_bound = Float::INFINITY
-    @logging = logging
-    @nodes_visited = 0
-    @nodes_since_result = 0
     @move = 0
     @opening = @@openings[@color]
     @opening_length = @opening.size
-    @use_opening = use_opening
   end
 
   def minimax(position, depth, a, b, player)
-    raise 'NIL is not a valid position' if position.nil?
-    raise 'player must equal 1 or -1' if player.abs != 1
     if position.over? && player == -1
       alpha = @heuristic_bound
-    elsif depth > 0 # && @nodes_visited < @search_limit
+    elsif depth > 0
       if player == 1
         for move in Move.new(position).gen_all_moves(get_color(player))
-          @nodes_visited += 1
-          @nodes_since_result += 1
           a = [a, minimax(position.move(move), depth-1, a, b, -player)].max
           if b <= a
             break
@@ -73,8 +64,6 @@ class SearchTree
         alpha = a
       else
         for move in Move.new(position).gen_all_moves(get_color(player))
-          @nodes_visited += 1
-          @nodes_since_result += 1
           b = [b, minimax(position.move(move), depth-1, a, b, -player)].min
           if b <= a
             break
@@ -89,21 +78,12 @@ class SearchTree
   end
 
   def search(position, depth=@@depth, player=1)
-    raise 'player must equal 1 or -1' if player.abs != 1 or player.nil?
-    raise 'depth must be a number' if depth.nil?
-
-    if @logging
-      start_time = Time.now
-    end
-    @nodes_visited = 0
     # use an opening if its set
-    if @use_opening and @move < @opening_length
+    if @move < @opening_length
       move = @opening[@move]
-      @move += 1
       return move
-    else
-      @move += 1
     end
+    @move += 1
 
     a = -Float::INFINITY
     b = Float::INFINITY
@@ -114,24 +94,8 @@ class SearchTree
       test = [alpha, move]
       if res[0] < test[0]
         res = test
-        @nodes_since_result = 0
-      else
-        @nodes_since_result += 0
       end
-      @nodes_visited += 1
     }
-    if @logging
-      time_taken = Time.now - start_time
-      puts 'SEARCH COMPLETE'
-      puts '- - - - - - - - - - - - - - - - -'
-      puts 'alpha: ' + res[0].to_s
-      puts ' move: ' + res[1].to_s
-      puts ' encd: ' + position.move(res[1]).serialize.to_s
-      puts 'nodes: ' + @nodes_visited.to_s
-      puts 'waste: ' + @nodes_since_result.to_s
-      puts ' time: ' + time_taken.to_s
-      puts
-    end
     return res[1]
   end
 

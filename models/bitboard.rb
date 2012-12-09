@@ -15,7 +15,6 @@ class Bitboard
           1<<56, 1<<57, 1<<58, 1<<59, 1<<60, 1<<61, 1<<62, 1<<63]
 
   def initialize(value=0)
-    #raise ArgumentError, sprintf("%32x", value) + " passed\nis out of range." if value < MinValue || value > MaxValue
     @value=value
   end
 

@@ -12,7 +12,7 @@ class Square
 
   # Key of value
   def self.position(square)
-    @@positions[Square.to_sym(square)]
+    @@positions[square]
   end
 
   # Value of key
@@ -38,13 +38,6 @@ class Square
 
   def self.each_key(&proc)
     @@positions.each_key(&proc)
-  end
-
-  # Ensure squares are represented as symbols
-  def self.to_sym(square)
-    square = square.downcase.to_sym if square.class == String
-    raise ArgumentError, "#{square} is not a valid square, :a1,...,:h8 expected" unless @@positions.include? square 
-    square
   end
 
 end

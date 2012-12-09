@@ -23,7 +23,6 @@ class Move
   # Create a new Move for a specific position
   # raise an ArgumentError if the initial value is not a Position object
   def initialize(position)
-    raise ArgumentError, "You must provide a Position object - #{position} is type #{position.class}" if position.class != Position  
     @position = position
   end
 

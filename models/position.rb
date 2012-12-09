@@ -86,7 +86,6 @@ class Position
   #
   # TODO: Detect capture
   def move!(move)
-    raise 'move is NIL' if move.nil?
     from = move[0]
     to = move[1]
     piece = self[from]
@@ -143,7 +142,6 @@ class Position
     if square == nil
       return nil
     else
-      raise ArgumentError, "#{square} is not a valid square, :a1,...,:h8 expected" unless Square.include?(square)
       @white.each { |piece, position| return [:white, piece] if position.set?(square) }
       @black.each { |piece, position| return [:black, piece] if position.set?(square) }
       nil # Really weird fall-through...
@@ -160,12 +158,8 @@ class Position
 
   # Set square to be occupied by piece or nil to clear
   def []=(square, piece)
-    raise ArgumentError unless Square.include?(square)
 
     return clear!(square) if piece.nil?
-
-    raise ArgumentError unless Piece::Color.include?(piece[0])
-    raise ArgumentError unless Piece::Type.include?(piece[1])
 
     if piece[0] == :white
       @white[piece[1]].set!(square)
