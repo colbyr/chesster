@@ -79,11 +79,12 @@ class SearchTree
 
   def search(position, depth=@@depth, player=1)
     # use an opening if its set
+    puts "move: #{@move}"
     if @move < @opening_length
       move = @opening[@move]
+      @move += 1
       return move
     end
-    @move += 1
 
     a = -Float::INFINITY
     b = Float::INFINITY
@@ -92,7 +93,7 @@ class SearchTree
       pos = position.move(move)
       alpha = minimax(pos, depth - 1, a, b, -player)
       test = [alpha, move]
-      if res[0] < test[0]
+      if res[0] <= test[0]
         res = test
       end
     }
