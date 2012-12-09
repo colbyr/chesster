@@ -87,8 +87,11 @@ class SearchTree
   end
 
   def search(position, depth=@@depth, player=1)
-    start_time = Time.now
     raise 'player must equal 1 or -1' if player.abs != 1
+
+    if @logging
+      start_time = Time.now
+    end
     @nodes_visited = 0
     # use an opening if its set
     if @use_opening and @move < @opening_length
@@ -107,7 +110,7 @@ class SearchTree
       alpha = minimax(pos, depth - 1, a, b, -player)
       test = [alpha, move]
       res = res[0] > test[0] ? res : test
-      @nodes_visited
+      @nodes_visited += 1
     }
     if @logging
       time_taken = Time.now - start_time
@@ -115,9 +118,9 @@ class SearchTree
       puts '- - - - - - - - - - - - - - - - -'
       puts 'alpha: ' + res[0].to_s
       puts ' move: ' + res[1].to_s
-      puts 'nodes: ' + @nodes_visitied.to_s
+      puts 'nodes: ' + @nodes_visited.to_s
+      puts ' time: ' + time_taken.to_s
       puts
-      puts 'Time taken: ' + time_taken.to_s
     end
     return res[1]
   end
