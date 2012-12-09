@@ -87,6 +87,7 @@ class SearchTree
   end
 
   def search(position, depth=@@depth, player=1)
+    start_time = Time.now
     raise 'player must equal 1 or -1' if player.abs != 1
     @nodes_visited = 0
     # use an opening if its set
@@ -109,12 +110,14 @@ class SearchTree
       @nodes_visited
     }
     if @logging
+      time_taken = Time.now - start_time
       puts 'SEARCH COMPLETE'
       puts '- - - - - - - - - - - - - - - - -'
       puts 'alpha: ' + res[0].to_s
       puts ' move: ' + res[1].to_s
       puts 'nodes: ' + @nodes_visitied.to_s
       puts
+      puts 'Time taken: ' + time_taken.to_s
     end
     return res[1]
   end
