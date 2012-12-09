@@ -7,7 +7,7 @@ class SearchTree
 
   attr_reader :current_state
 
-  @@depth = 8
+  @@depth = 6
   @@heuristic_bound = Float::INFINITY
 
   @@openings = {
@@ -79,11 +79,11 @@ class SearchTree
   end
 
   def search(position, depth=@@depth, player=1)
-    # if @move < @opening_length
-    #   move = @opening[@move]
-    #   @move += 1
-    #   return move
-    # end
+    if @move < @opening_length
+      move = @opening[@move]
+      @move += 1
+      return move
+    end
 
     a = -@@heuristic_bound
     b = @@heuristic_bound
