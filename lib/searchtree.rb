@@ -1,11 +1,13 @@
+require 'celluloid'
 require './models/move.rb'
 require './models/position.rb'
+require './lib/worker.rb'
 
 class SearchTree
 
   attr_reader :current_state
 
-  @@depth = 4
+  @@depth = 8
   @@heuristic_bound = Float::INFINITY
 
   @@openings = {
@@ -47,6 +49,7 @@ class SearchTree
     @move = 0
     @opening = @@openings[@color]
     @opening_length = @opening.size
+    @pool = Worker.pool
   end
 
   def self.minimax(position, depth, a, b, player, color)
@@ -76,20 +79,23 @@ class SearchTree
   end
 
   def search(position, depth=@@depth, player=1)
-    if @move < @opening_length
-      move = @opening[@move]
-      @move += 1
-      return move
-    end
+    # if @move < @opening_length
+    #   move = @opening[@move]
+    #   @move += 1
+    #   return move
+    # end
 
-    res = [@@heuristic_bound * -player, nil]
-    Move.new(position).gen_all_moves(get_color(player)).each {|move|
-      test = [SearchTree.minimax(position.move(move), depth - 1, -@@heuristic_bound, @@heuristic_bound, -player, @color), move]
-      if res[0] <= test[0]
-        res = test
-      end
+    a = -@@heuristic_bound
+    b = @@heuristic_bound
+    futures = Move.new(position).gen_all_moves(get_color(player)).map {|move|
+      @pool.future.search(move, position.move(move), depth - 1, a, b, -player, @color)
     }
-    return res[1]
+    moves = futures.map(&:value)
+    res = (moves.inject([@@heuristic_bound * -player, nil]) { |res, test|
+      res[0] <= test[0] ? test : res
+    })
+    puts "alpha: #{res}"
+    res[1]
   end
 
 end
