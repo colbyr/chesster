@@ -6,6 +6,7 @@ class SearchTree
   attr_reader :current_state
 
   @@depth = 4
+  @@heuristic_bound = Float::INFINITY
 
   @@openings = {
     :black => [ # nimzo-indian
@@ -32,43 +33,44 @@ class SearchTree
     position
   end
 
-  def heuristic(position, player)
+  def self.heuristic(position, player, color)
     # 1. Our pieces - opponents pieces
     # 2. Then weight pieces
     number_of_white_pieces = position.white_pieces.set_bits.length
     number_of_black_pieces = position.black_pieces.set_bits.length
 
-    color = get_color(player)
     position.valuate(color) - position.valuate(color == :white ? :black : :white)
   end
 
   def initialize(color=:white)
     @color = color
-    @heuristic_bound = Float::INFINITY
     @move = 0
     @opening = @@openings[@color]
     @opening_length = @opening.size
   end
 
-  def minimax(position, depth, a, b, player)
+  def self.minimax(position, depth, a, b, player, color)
+    if player != 1
+      color == :white ? :black : :white
+    end
     if position.over? && player == -1
-      alpha = @heuristic_bound
+      alpha = @@heuristic_bound
     elsif depth > 0
       if player == 1
-        for move in Move.new(position).gen_all_moves(get_color(player))
-          a = [a, minimax(position.move(move), depth-1, a, b, -player)].max
+        for move in Move.new(position).gen_all_moves(color)
+          a = [a, self.minimax(position.move(move), depth-1, a, b, -player, color)].max
           break if b <= a
         end
         alpha = a
       else
-        for move in Move.new(position).gen_all_moves(get_color(player))
-          b = [b, minimax(position.move(move), depth-1, a, b, -player)].min
+        for move in Move.new(position).gen_all_moves(color == :white ? :black : :white)
+          b = [b, self.minimax(position.move(move), depth-1, a, b, -player, color)].min
           break if b <= a
         end
         alpha = b
       end
     else
-      alpha = heuristic(position, player)
+      alpha = self.heuristic(position, player, color)
     end
     return alpha
   end
@@ -80,9 +82,9 @@ class SearchTree
       return move
     end
 
-    res = [@heuristic_bound * -player, nil]
+    res = [@@heuristic_bound * -player, nil]
     Move.new(position).gen_all_moves(get_color(player)).each {|move|
-      test = [minimax(position.move(move), depth - 1, -@heuristic_bound, @heuristic_bound, -player), move]
+      test = [SearchTree.minimax(position.move(move), depth - 1, -@@heuristic_bound, @@heuristic_bound, -player, @color), move]
       if res[0] <= test[0]
         res = test
       end
