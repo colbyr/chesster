@@ -49,7 +49,7 @@ class SearchTree
     @logging = logging
     @nodes_visited = 0
     @move = 0
-    @opening = select_opening
+    @opening = @@openings[@color]
     @opening_length = @opening.size
     @use_opening = use_opening
   end
@@ -117,10 +117,6 @@ class SearchTree
       puts
     end
     return res[1]
-  end
-
-  def select_opening
-    @@openings[@color].sample
   end
 
 end
