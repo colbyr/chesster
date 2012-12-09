@@ -214,7 +214,7 @@ class Position
     len = state.length
     pos = self.new
     i = 0
-    until i > len do
+    while i < len do
       s = state[i, 4]
       p = []
       coord = (@@lcoords[s[1].to_i] + (s[2].to_i + 1).to_s).to_sym
