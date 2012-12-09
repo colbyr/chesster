@@ -27,10 +27,8 @@ class Chesster
     if(last_move_number == 0)
       puts 'Starting game'
     else
-      puts 'Got notified of new move: ' + last_move
       move = self.state.current_position.move_from_string last_move
-      do_move(move) 
-      puts 'State is now: '
+      do_move(move)
       self.state.current_position.to_s
     end
 
@@ -38,10 +36,6 @@ class Chesster
     move_string = self.state.current_position.string_from_move(new_move)
     do_move(new_move)
 
-    puts 'Moved:'
-    print self.state.current_position.to_s
-
-    puts 'Notifying server of our move'
     @ponger.pong(move_string)
 
     #TODO: Commence searching from current_state in background
