@@ -4,29 +4,27 @@ require './models/position.rb'
 class SearchTree
 
   attr_reader :current_state
+
+  @@depth = 4
+
   @@openings = {
-    :black => [
-      [[:g8, :f6], [:e7, :e6]]  # nimzo-indian
+    :black => [ # nimzo-indian
+      [:g8, :f6],
+      [:e7, :e6]
     ],
-    :white => [
-      [[:e2, :e3], [:d2, :d4]]  # queen's pawn game
+    :white => [ # queen's pawn game
+      [:e2, :e3],
+      [:d2, :d4]
     ]
   }
 
-  def select_opening
-    @@openings[@color].sample
-  end
-
-  def initialize(color=:white, use_opening=true, state=generate)
-    @color = color
-    @current_state = state
-    @depth = 4
-    @heuristic_bound = Float::INFINITY
-    @nodes_visited = 0
-    @move = 0
-    @opening = select_opening
-    @opening_length = @opening.size
-    @use_opening = use_opening
+  def get_color(player)
+    raise 'player must equal 1 or -1' if player.abs != 1
+    if player == 1
+      @color
+    else
+      @color == :white ? :black : :white
+    end
   end
 
   def generate
@@ -45,13 +43,15 @@ class SearchTree
     position.valuate(color) - position.valuate(color == :white ? :black : :white)
   end
 
-  def get_color(player)
-    raise 'player must equal 1 or -1' if player.abs != 1
-    if player == 1
-      @color
-    else
-      @color == :white ? :black : :white
-    end
+  def initialize(color=:white, use_opening=true, logging=false)
+    @color = color
+    @heuristic_bound = Float::INFINITY
+    @logging = logging
+    @nodes_visited = 0
+    @move = 0
+    @opening = select_opening
+    @opening_length = @opening.size
+    @use_opening = use_opening
   end
 
   def minimax(position, depth, a, b, player)
@@ -86,9 +86,9 @@ class SearchTree
     return alpha
   end
 
-  def search(position, depth=@depth, player=1)
+  def search(position, depth=@@depth, player=1)
     raise 'player must equal 1 or -1' if player.abs != 1
-
+    @nodes_visited = 0
     # use an opening if its set
     if @use_opening and @move < @opening_length
       move = @opening[@move]
@@ -106,9 +106,21 @@ class SearchTree
       alpha = minimax(pos, depth - 1, a, b, -player)
       test = [alpha, move]
       res = res[0] > test[0] ? res : test
+      @nodes_visited
     }
-    puts 'alpha ' + res[0].to_s
+    if @logging
+      puts 'SEARCH COMPLETE'
+      puts '- - - - - - - - - - - - - - - - -'
+      puts 'alpha: ' + res[0].to_s
+      puts ' move: ' + res[1].to_s
+      puts 'nodes: ' + @nodes_visitied.to_s
+      puts
+    end
     return res[1]
+  end
+
+  def select_opening
+    @@openings[@color].sample
   end
 
 end
