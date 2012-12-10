@@ -19,16 +19,23 @@ class Chesster < API
   end
 
   def notify_of_new_move(last_move, last_move_number)
+    puts 'Got new move: ' + last_move
     if(last_move_number == 0)
       puts 'Starting game'
     else
       move = self.state.current_position.move_from_string last_move
       do_move(move)
+      puts 'State is now:'
+      @state.current_position.to_s
     end
 
     new_move = find_move
     move_string = self.state.current_position.string_from_move(new_move)
+    puts 'Moving: ' + move_string
     do_move(new_move)
+
+    puts 'State is now:'
+    @state.current_position.to_s
 
     pong(move_string)
     ping
@@ -36,6 +43,7 @@ class Chesster < API
   end
 
   def find_move
+    puts 'Finding move...'
     @searcher.search(self.state.current_position)
   end
 
@@ -55,6 +63,7 @@ class Chesster < API
   end
 
   def pong(move)
+    puts 'Sending move: ' + move
     @api.move(@game_id, @team_number, @team_secret, move)
   end
 
