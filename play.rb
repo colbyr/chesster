@@ -22,7 +22,10 @@ while !game.over? do
   if turn
     puts 'Chesster\'s move...'
     puts
+    start = Time.now
     move = s.search(game)
+    taken = Time.now - start
+    puts 'Time taken: ' + taken.to_s
   else
     print 'your move: '
     raw = gets.chomp
