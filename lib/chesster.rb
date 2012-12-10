@@ -19,13 +19,11 @@ class Chesster < API
   end
 
   def notify_of_new_move(last_move, last_move_number)
-    puts 'got notified of new move'
     if(last_move_number == 0)
       puts 'Starting game'
     else
       move = self.state.current_position.move_from_string last_move
       do_move(move)
-      self.state.current_position.to_s
     end
 
     new_move = find_move
@@ -38,12 +36,10 @@ class Chesster < API
   end
 
   def find_move
-    puts 'Finding move'
     @searcher.search(self.state.current_position)
   end
 
   def do_move(move)
-    puts 'Doing move'
     self.state.current_position.move!(move)
   end
 
@@ -53,8 +49,6 @@ class Chesster < API
       response = @api.poll(@game_id, @team_number, @team_secret)
       if response['ready'] == true
         notify_of_new_move(response['lastmove'], response['lastmovenumber'])
-      else
-        puts 'Not our move yet'
       end
       sleep(5)
     end
