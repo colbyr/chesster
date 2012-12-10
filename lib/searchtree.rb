@@ -70,22 +70,28 @@ class SearchTree
         for move in Move.new(position).gen_all_moves(color)
           pos = position.move(move)
           key = pos.serialize
-          if !@@visited.include?(key)
-            @@visited[key] = :done
-            a = [a, self.minimax(pos, depth-1, a, b, -player, color)].max
-            break if b <= a
+          if @@visited.include?(key)
+            a = [a, @@visited[key]].max
+          else
+            heur = self.minimax(pos, depth-1, a, b, -player, color)
+            @@visited[key] = heur
+            a = [a, heur].max
           end
+          break if b <= a
         end
         alpha = a
       else
         for move in Move.new(position).gen_all_moves(color == :white ? :black : :white)
           pos = position.move(move)
           key = pos.serialize
-          if !@@visited.include?(key)
-            @@visited[key] = :done
-            b = [b, self.minimax(pos, depth-1, a, b, -player, color)].min
-            break if b <= a
+          if @@visited.include?(key)
+            b = [b, @@visited[key]].min
+          else
+            heur = self.minimax(pos, depth-1, a, b, -player, color)
+            @@visited[key] = heur
+            b = [b, heur].min
           end
+          break if b <= a
         end
         alpha = b
       end
@@ -97,11 +103,11 @@ class SearchTree
 
   def search(position, depth=@@depth, player=1)
     @@visited = Sharder.new
-    if @move < @opening_length
-      move = @opening[@move]
-      @move += 1
-      return move
-    end
+    # if @move < @opening_length
+    #  move = @opening[@move]
+    #  @move += 1
+    #  return move
+    #end
 
     a = -@@heuristic_bound
     b = @@heuristic_bound
