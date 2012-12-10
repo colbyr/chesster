@@ -173,6 +173,18 @@ class Position
     self.white_pieces | self.black_pieces
   end
 
+  def length
+    count = 0
+    value = all_pieces.value
+    while value > 0 do
+      if (value & 1) == 1
+        count += 1
+      end
+      value = value >> 1
+    end
+    count
+  end
+
   def white_pieces
     all = Bitboard.new
     @white.each_value{|piece| all |= piece.bitboard }
