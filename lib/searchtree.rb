@@ -44,7 +44,7 @@ class SearchTree
     position.valuate(color) - position.valuate(color == :white ? :black : :white)
   end
 
-  def initialize(color=:white)
+  def initialize(color)
     @color = color
     @move = 0
     @opening = @@openings[@color]
@@ -56,8 +56,8 @@ class SearchTree
     if player != 1
       color == :white ? :black : :white
     end
-    if position.over? && player == -1
-      alpha = @@heuristic_bound
+    if position.over?
+      alpha = @@heuristic_bound * -player
     elsif depth > 0
       if player == 1
         for move in Move.new(position).gen_all_moves(color)
