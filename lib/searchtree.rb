@@ -1,5 +1,4 @@
 require 'celluloid'
-require './lib/sharder.rb'
 require './models/move.rb'
 require './models/position.rb'
 require './lib/worker.rb'
@@ -21,12 +20,6 @@ class SearchTree
       [:d2, :d4]
     ]
   }
-
-  @@visited = nil
-
-  def self.visited
-    @@visited
-  end
 
   def get_color(player)
     if player == 1
@@ -68,29 +61,13 @@ class SearchTree
     elsif depth > 0
       if player == 1
         for move in Move.new(position).gen_all_moves(color)
-          pos = position.move(move)
-          key = pos.serialize
-          if @@visited.include?(key)
-            a = [a, @@visited[key]].max
-          else
-            heur = self.minimax(pos, depth-1, a, b, -player, color)
-            @@visited[key] = heur
-            a = [a, heur].max
-          end
+          a = [a, self.minimax(position.move(move), depth-1, a, b, -player, color)].max
           break if b <= a
         end
         alpha = a
       else
         for move in Move.new(position).gen_all_moves(color == :white ? :black : :white)
-          pos = position.move(move)
-          key = pos.serialize
-          if @@visited.include?(key)
-            b = [b, @@visited[key]].min
-          else
-            heur = self.minimax(pos, depth-1, a, b, -player, color)
-            @@visited[key] = heur
-            b = [b, heur].min
-          end
+          b = [b, self.minimax(position.move(move), depth-1, a, b, -player, color)].min
           break if b <= a
         end
         alpha = b
@@ -102,12 +79,11 @@ class SearchTree
   end
 
   def search(position, depth=@@depth, player=1)
-    @@visited = Sharder.new
-    # if @move < @opening_length
-    #  move = @opening[@move]
-    #  @move += 1
-    #  return move
-    #end
+    if @move < @opening_length
+      move = @opening[@move]
+      @move += 1
+      return move
+    end
 
     a = -@@heuristic_bound
     b = @@heuristic_bound
@@ -118,7 +94,7 @@ class SearchTree
     res = (moves.inject([@@heuristic_bound * -player, nil]) { |res, test|
       res[0] <= test[0] ? test : res
     })
-    @@visited = nil
+    puts "alpha: #{res}"
     res[1]
   end
 
