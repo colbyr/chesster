@@ -340,7 +340,8 @@ class Move
     third +=  gen_bishop_moves  color
     third +=  gen_knight_moves  color
     third.shuffle
-    (gen_king_moves color) += third
+    king = gen_king_moves color
+    king += third
   end
 
   # debugging helpers
