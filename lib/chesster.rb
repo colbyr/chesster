@@ -49,6 +49,7 @@ class Chesster < API
 
   def do_move(move)
     self.state.current_position.move!(move)
+    puts self.state.to_s
   end
 
   private
