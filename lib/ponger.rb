@@ -10,6 +10,7 @@ class Ponger < API
   end
 
   def pong(move)
+    puts 'Ponging move ' + move.to_s
     @api.move(@game_id, @team_number, @team_secret, move)
   end
 

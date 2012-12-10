@@ -1,29 +1,25 @@
-require './lib/pinger.rb'
-require './lib/ponger.rb'
+require './lib/api.rb'
 require './lib/state.rb'
 require './lib/searchtree.rb'
-require 'celluloid'
 
-class Chesster
-  include Celluloid
+class Chesster < API
 
   attr_reader :notified, :state
   attr_accessor :pinger
 
   def initialize(game_id, team_number, team_secret, color)
+    @game_id = game_id
+    @team_number = team_number
+    @team_secret = team_secret
+    @api = API.new
     @state = State.new
     @searcher = SearchTree.new(color)
-    register(game_id, team_number, team_secret)
-  end
 
-  def searching?
-    @is_searching
+    ping
   end
 
   def notify_of_new_move(last_move, last_move_number)
-    #TODO: Interrupt any searches in progress
-    #TODO: Check last move number and make sure we are in sync
-
+    puts 'got notified of new move'
     if(last_move_number == 0)
       puts 'Starting game'
     else
@@ -36,25 +32,36 @@ class Chesster
     move_string = self.state.current_position.string_from_move(new_move)
     do_move(new_move)
 
-    @ponger.pong(move_string)
+    pong(move_string)
+    ping
 
-    #TODO: Commence searching from current_state in background
-    Actor[:pinger].carry_on
   end
 
   def find_move
+    puts 'Finding move'
     @searcher.search(self.state.current_position)
   end
 
   def do_move(move)
+    puts 'Doing move'
     self.state.current_position.move!(move)
   end
 
   private
-  def register(game_id, team_number, team_secret)
-    Actor[:chesster] = Actor.current
-    @pinger = Pinger.new(game_id, team_number, team_secret)
-    @ponger = Ponger.new(game_id, team_number, team_secret)
-
+  def ping
+    while true do
+      response = @api.poll(@game_id, @team_number, @team_secret)
+      if response['ready'] == true
+        notify_of_new_move(response['lastmove'], response['lastmovenumber'])
+      else
+        puts 'Not our move yet'
+      end
+      sleep(5)
+    end
   end
+
+  def pong(move)
+    @api.move(@game_id, @team_number, @team_secret, move)
+  end
+
 end
