@@ -1,4 +1,5 @@
 require 'celluloid'
+require './lib/sharder.rb'
 require './models/move.rb'
 require './models/position.rb'
 require './lib/worker.rb'
@@ -20,6 +21,12 @@ class SearchTree
       [:d2, :d4]
     ]
   }
+
+  @@visited = nil
+
+  def self.visited
+    @@visited
+  end
 
   def get_color(player)
     if player == 1
@@ -61,14 +68,24 @@ class SearchTree
     elsif depth > 0
       if player == 1
         for move in Move.new(position).gen_all_moves(color)
-          a = [a, self.minimax(position.move(move), depth-1, a, b, -player, color)].max
-          break if b <= a
+          pos = position.move(move)
+          key = pos.serialize
+          if !@@visited.include?(key)
+            @@visited[key] = :done
+            a = [a, self.minimax(pos, depth-1, a, b, -player, color)].max
+            break if b <= a
+          end
         end
         alpha = a
       else
         for move in Move.new(position).gen_all_moves(color == :white ? :black : :white)
-          b = [b, self.minimax(position.move(move), depth-1, a, b, -player, color)].min
-          break if b <= a
+          pos = position.move(move)
+          key = pos.serialize
+          if !@@visited.include?(key)
+            @@visited[key] = :done
+            b = [b, self.minimax(pos, depth-1, a, b, -player, color)].min
+            break if b <= a
+          end
         end
         alpha = b
       end
@@ -79,6 +96,7 @@ class SearchTree
   end
 
   def search(position, depth=@@depth, player=1)
+    @@visited = Sharder.new
     if @move < @opening_length
       move = @opening[@move]
       @move += 1
@@ -94,7 +112,7 @@ class SearchTree
     res = (moves.inject([@@heuristic_bound * -player, nil]) { |res, test|
       res[0] <= test[0] ? test : res
     })
-    puts "alpha: #{res}"
+    @@visited = nil
     res[1]
   end
 
