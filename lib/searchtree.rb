@@ -1,6 +1,7 @@
 require 'celluloid'
 require './models/move.rb'
 require './models/position.rb'
+require './lib/visited.rb'
 require './lib/worker.rb'
 
 class SearchTree
@@ -51,6 +52,7 @@ class SearchTree
     @opening = @@openings[@color]
     @opening_length = @opening.size
     @pool = Worker.pool
+    @visited = Visited.new
   end
 
   def self.minimax(position, depth, a, b, player, color)
@@ -95,11 +97,11 @@ class SearchTree
 
   def search(position, player=1)
     depth = relative_depth(position)
-    if @move < @opening_length
-      move = @opening[@move]
-      @move += 1
-      return move
-    end
+    #if @move < @opening_length
+    #  move = @opening[@move]
+    #  @move += 1
+    #  return move
+    #end
 
     a = -@@heuristic_bound
     b = @@heuristic_bound
@@ -108,9 +110,14 @@ class SearchTree
     }
     moves = futures.map(&:value)
     res = (moves.inject([@@heuristic_bound * -player, nil]) { |res, test|
-      res[0] <= test[0] ? test : res
+      if res[0] <= test[0] and !@visited.include?(test)
+        @visited.add! test
+      else
+        res
+      end
     })
-    puts "alpha: #{res}"
+    puts "alpha: #{res[0]}"
+    puts " move: #{res[1]}"
     res[1]
   end
 
