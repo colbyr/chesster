@@ -88,7 +88,7 @@ class SearchTree
     a = -@@heuristic_bound
     b = @@heuristic_bound
     futures = Move.new(position).gen_all_moves(get_color(player)).map {|move|
-      @pool.future.search(move, position.move(move), depth - 1, a, b, -player, @color)
+      @pool.future.search(move, position.move(move), depth - 1, a, b, -player, get_color(-player))
     }
     moves = futures.map(&:value)
     res = (moves.inject([@@heuristic_bound * -player, nil]) { |res, test|
