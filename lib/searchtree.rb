@@ -7,7 +7,7 @@ class SearchTree
 
   attr_reader :current_state
 
-  @@depth = 6
+  @@depth = 4
   @@heuristic_bound = Float::INFINITY
 
   @@openings = {
