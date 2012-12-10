@@ -84,7 +84,7 @@ class SearchTree
     if len <= 14
       puts "#{len} pieces on the board -- search to depth 6"
       return 6
-    elsif len <= 20
+    elsif len <= 28
       puts "#{len} pieces on the board -- search to depth 5"
       return 5
     else
