@@ -83,7 +83,7 @@ class SearchTree
 
   def relative_depth(position)
     len = position.length
-    if len <= 14
+    if len <= 16
       puts "#{len} pieces on the board -- search to depth 6"
       return 6
     elsif len <= 25
