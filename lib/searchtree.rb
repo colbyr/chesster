@@ -97,11 +97,11 @@ class SearchTree
 
   def search(position, player=1)
     depth = relative_depth(position)
-    #if @move < @opening_length
-    #  move = @opening[@move]
-    #  @move += 1
-    #  return move
-    #end
+    if @move < @opening_length
+      move = @opening[@move]
+      @move += 1
+      return move
+    end
 
     a = -@@heuristic_bound
     b = @@heuristic_bound
