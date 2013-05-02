@@ -15,11 +15,6 @@ class Chesster < API
     @state = State.new
     @searcher = SearchTree.new(color)
 
-    puts 'Hi, my name is Chesster. I\'m the besster.'
-    puts 'blahblahblah =('
-    puts 'weiropaweifhsjkfhgjksdhfgs'
-
-
     ping
   end
 
