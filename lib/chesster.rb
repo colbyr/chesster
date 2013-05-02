@@ -16,7 +16,7 @@ class Chesster < API
     @searcher = SearchTree.new(color)
 
     puts 'Hi, my name is Chesster. I\'m the besster.'
-    puts 'hahahahahahahahahahahahahahahahha =)'
+    puts 'blahblahblah =('
     puts 'weiropaweifhsjkfhgjksdhfgs'
 
 
